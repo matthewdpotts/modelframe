@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import model.*;
-import model.mosquito.threaded.ModelArrsThreaded;
-
 import java.text.DecimalFormat;
 
 public class Model {
@@ -75,11 +73,11 @@ public class Model {
 			
 			for(j = 0; j < mosq_arr.length; j++) {
 				if(mosq_arr[j].waitBite() < 1 && bite(mosq_arr[j]))	{
-					data[ModelArrsThreaded.BITE_NUM][i]++;
-					data[ModelArrsThreaded.BITE_AVG][i]++;
+					data[Model.BITE_NUM][i]++;
+					data[Model.BITE_AVG][i]++;
 					rand = mt.nextInt(6);
-					data[ModelArrsThreaded.WAIT_AVG][i] += (double)rand;
-					data[ModelArrsThreaded.TOT_BITE_AVG][i]++;
+					data[Model.WAIT_AVG][i] += (double)rand;
+					data[Model.TOT_BITE_AVG][i]++;
 					mosq_arr[j].setBiteTime(0); //modify this for bite time changes
 				}
 				move(mosq_arr[j]);
@@ -147,14 +145,16 @@ public class Model {
 	private void processData(double data[][], int steps, int num_h, int num_m) {
 		
 		for(j = 0; j < steps; j++) {
-			data[WAIT_AVG][j] = data[WAIT_AVG][j] / (double)num_m;
+			data[Model.WAIT_AVG][j] = data[Model.WAIT_AVG][j] / (double)num_m;
 			if(j % 100 == 0) {
-				data[BITE_AVG][j] = data[BITE_AVG][j] / 100.0;
-				printer_m.printData(Integer.toString(j)+"\t"+Double.toString(data[BITE_NUM][j])+"\t"+formatter.format(data[WAIT_AVG][j])+"\t"+Double.toString(data[BITE_AVG][j]));
+				data[Model.BITE_AVG][j] = data[Model.BITE_AVG][j] / 100.0;
+				printer_m.printData(Integer.toString(j)+"\t"+Double.toString(data[Model.BITE_NUM][j])+"\t"
+						+formatter.format(data[Model.WAIT_AVG][j])+"\t"+Double.toString(data[Model.BITE_AVG][j]));
 			}
 			else {
-				data[ModelArrsThreaded.BITE_AVG][j] = -100.0;
-				printer_m.printData(Integer.toString(j)+"\t"+Double.toString(data[BITE_NUM][j])+"\t"+formatter.format(data[WAIT_AVG][j])+"\t"+Double.toString(data[BITE_AVG][j]));
+				data[Model.BITE_AVG][j] = -100.0;
+				printer_m.printData(Integer.toString(j)+"\t"+Double.toString(data[BITE_NUM][j])+"\t"
+						+formatter.format(data[WAIT_AVG][j])+"\t"+Double.toString(data[BITE_AVG][j]));
 			}
 		}	
 		
@@ -204,21 +204,21 @@ public class Model {
 		if(move_rand == 0) {
 			move(mosquito);
 			if(mosq_arr[m].waitBite() < 1 && bite(mosq_arr[m]) && bite_rand)	{
-				data[ModelArrsThreaded.BITE_NUM][q]++;
-				data[ModelArrsThreaded.BITE_AVG][q]++;
+				data[Model.BITE_NUM][q]++;
+				data[Model.BITE_AVG][q]++;
 				rand = mt.nextInt(6);
-				data[ModelArrsThreaded.WAIT_AVG][q] += (double)rand;
-				data[ModelArrsThreaded.TOT_BITE_AVG][q]++;
+				data[Model.WAIT_AVG][q] += (double)rand;
+				data[Model.TOT_BITE_AVG][q]++;
 				mosq_arr[m].setBiteTime(0); //modify this for bite time changes
 			}
 		}
 		else if(move_rand == 1) {
 			if(mosq_arr[m].waitBite() < 1 && bite(mosq_arr[m]) && bite_rand)	{
-				data[ModelArrsThreaded.BITE_NUM][q]++;
-				data[ModelArrsThreaded.BITE_AVG][q]++;
+				data[Model.BITE_NUM][q]++;
+				data[Model.BITE_AVG][q]++;
 				rand = mt.nextInt(6);
-				data[ModelArrsThreaded.WAIT_AVG][q] += (double)rand;
-				data[ModelArrsThreaded.TOT_BITE_AVG][q]++;
+				data[Model.WAIT_AVG][q] += (double)rand;
+				data[Model.TOT_BITE_AVG][q]++;
 				mosq_arr[m].setBiteTime(0); //modify this for bite time changes
 			}
 			move(mosquito);
