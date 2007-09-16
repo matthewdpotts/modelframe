@@ -54,7 +54,7 @@ public class Model {
 		printer_s.printHeader();
 	}
 	
-	public void Run(int steps, int num_h, int num_m) throws IOException	{
+	public void run(int steps, int num_h, int num_m) throws IOException	{
 		int arr[] = new int[2];
 		data = new double[4][steps];
 		
@@ -91,11 +91,10 @@ public class Model {
 		processData(data, steps, num_h, num_m);
 	}
 	
-	public void RunPotts(int steps, int num_h, int num_m) throws IOException {
+	public void runPotts(int steps, int num_h, int num_m) throws IOException {
 		int arr[] = new int[2];
 		data = new double[4][steps];
-		int counter = 0;
-		
+
 		human_arr = new Human[num_h];
 		mosq_arr = new Mosquito[num_m];
 		arr[0] = num_h;
@@ -105,10 +104,13 @@ public class Model {
 		
 		HashSet<Integer> mosq_ind = new HashSet<Integer>();
 		HashSet<Integer> human_ind = new HashSet<Integer>();
-		for(i = 0; i < mosq_arr.length; i++)
+		for(i = 0; i < mosq_arr.length; i++) {
 			mosq_ind.add(Integer.valueOf(i));
-		for(i = 0; i < human_arr.length; i++)
+		}
+		for(i = 0; i < human_arr.length; i++) {
 			human_ind.add(Integer.valueOf(i));
+		}
+		
 		
 		for(i = 0; i < steps; i++) {
 			Iterator<Integer> mosq_itr = mosq_ind.iterator();
@@ -116,14 +118,19 @@ public class Model {
 			
 			while(mosq_itr.hasNext() || human_itr.hasNext()) {
 				boolean choice_act = mt.nextBoolean();
-				if(choice_act && mosq_itr.hasNext())
-					mosq_action(mosq_arr[mosq_itr.next().intValue()], data, i, counter++);
+				int temp_index;
+				if(choice_act && mosq_itr.hasNext()) {
+					temp_index = mosq_itr.next().intValue();
+					mosq_action(mosq_arr[temp_index], data, temp_index, i);
+				}
 				else if(choice_act && !mosq_itr.hasNext() && human_itr.hasNext())
 					move(human_arr[human_itr.next().intValue()]);
 				else if(!choice_act && human_itr.hasNext())
 					move(human_arr[human_itr.next().intValue()]);
-				else if(!choice_act && !human_itr.hasNext() && mosq_itr.hasNext())
-					mosq_action(mosq_arr[mosq_itr.next().intValue()], data, i, counter++);
+				else if(!choice_act && !human_itr.hasNext() && mosq_itr.hasNext()) {
+					temp_index = mosq_itr.next().intValue();
+					mosq_action(mosq_arr[temp_index], data, temp_index, i);
+				}
 				else
 					break;
 			}
@@ -137,7 +144,7 @@ public class Model {
 		
 	}  
 	
-	public void RunKapitanski(int steps, int num_h, int num_m) throws IOException {
+	public void runKapitanski(int steps, int num_h, int num_m) throws IOException {
 		
 	}
 	

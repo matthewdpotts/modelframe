@@ -3,15 +3,14 @@ package model;
 import java.io.*;
 
 public class LineInsert {
-
-		public static void main(String args[]) throws Exception{
-			LineInsert j = new LineInsert();
+		
+		public void run() throws Exception {
 			String file, header;
 			header = new String("t\tb\tw\tba");
 			
 			for(int i = 2; i < 101; i++) {
 				file = new String("output_m"+i+".txt");
-				j.insertStringInFile(new File(file), 1, header);
+				insertStringInFile(new File(file), 1, header);
 			}
 		}
 	     
