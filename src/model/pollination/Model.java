@@ -13,20 +13,20 @@ public class Model {
 	private Pollinator bee_a, bee_b;
 	private Printer output;
 	
-	public Model() throws FileNotFoundException {
+	public Model(String file, int num_flowers) throws FileNotFoundException {
 		plants = new BagCollection<Plant>();
 		bee_a = new Pollinator(1);
 		bee_b = new Pollinator(2);
-		output = new Printer("output3.txt", "time\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b");
+		output = new Printer(file, "time\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b");
 		output.printHeader();
-		initPlants();
+		initPlants(num_flowers);
 	}
 	
-	public void run() {
+	public void run(int steps) {
 		BagCollection<Plant> new_plants, temp_plants;
 		Plant plant_temp;
 		
-		for(int i = 0; i < 100000; i++) {
+		for(int i = 0; i < 10000; i++) {
 			for(int j = 0; j < 500; j++) {
 				if(mt.nextInt(2)+2 % 2 == 0)
 					bee_a.move(plants);
@@ -38,7 +38,7 @@ public class Model {
 				temp_plants = (BagCollection<Plant>) plants.clone();
 				while(!temp_plants.isEmpty()) {
 					plant_temp = temp_plants.getAndRemove();
-					if(plant_temp.id == 1)
+	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.fit_a.getGeneSum()) + "\t" + Integer.toString(plant_temp.fit_b.getGeneSum()) + "\t"
 							+ Integer.toString(plant_temp.attract_a.getGeneSum()) + "\t" + Integer.toString(plant_temp.attract_b.getGeneSum()));
@@ -53,8 +53,8 @@ public class Model {
 		}
 	}
 	
-	private void initPlants() {
-		for(int i = 0; i < 100; i++) { //Apparently it blows stack at "i > 57"
+	private void initPlants(int num_flowers) {
+		for(int i = 0; i < num_flowers; i++) {
 			if(i % 2 == 0) {
 				plants.add(new Plant(new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)),new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)), i, 1));
 			}

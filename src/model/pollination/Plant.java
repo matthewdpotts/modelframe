@@ -29,6 +29,7 @@ public class Plant {
 		initOvules();
 	}
 	
+	/** Problems may arise here! **/
 	public Plant reproduce() {
 		Ovule new_ovule = null;
 		Pollen new_pollen = null;

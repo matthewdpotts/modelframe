@@ -33,6 +33,8 @@ public class Pollinator {
 		}
 	}
 	
+	
+	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant visit) {
 		double a1sum_a = (double)visit.attract_a.getGeneSum(1) * 0.1;
 		double a1sum_b = (double)visit.attract_b.getGeneSum(1) * 0.1;
@@ -76,6 +78,8 @@ public class Pollinator {
 		return temp_return;
 	}
 	
+	
+	/** Take a look here to make sure pollen depositing is going as expected. **/
 	private void depositPollen(Plant visit) {
 		int f1sum_a = visit.fit_a.getGeneSum(1);
 		int f2sum_a = visit.fit_a.getGeneSum(2);
