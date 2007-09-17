@@ -14,10 +14,10 @@ for(i in 1:100)
 	wait <- plot(data$t, data$w, type = "l", col = "red")
 	title(main = paste("Wait Amount (w) vs Time (t) - run #: ", i, sep="", collapse=""))
 	
-	if(i %/% 100 == 0) {
-		bites_avg <- plot(data$t, data$ba, type = "l", col = "blue")
-		title(main = paste("Bites Avg (ba) vs Time (t) - run #: ", i, sep="", collapse=""))
-	}
+#	if(i %/% 100 == 0) {
+#		bites_avg <- plot(data$t, data$ba, type = "l", col = "blue")
+#		title(main = paste("Bites Avg (ba) vs Time (t) - run #: ", i, sep="", collapse=""))
+#	}
 	
 	
 }
