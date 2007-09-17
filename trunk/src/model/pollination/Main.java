@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 public class Main {
 
 	public static void main(String args[]) throws FileNotFoundException {
-		Model test = new Model();
-		test.run();
+		Model test = new Model(new String("output-pollination-all.txt"), 100);
+		test.run(10000);
 		System.out.println("Done.");
 	}
 	
