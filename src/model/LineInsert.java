@@ -9,8 +9,10 @@ public class LineInsert {
 			header = new String("t\tb\tw\tba");
 			
 			for(int i = 2; i < 101; i++) {
-				file = new String("output_m"+i+".txt");
-				insertStringInFile(new File(file), 1, header);
+				if((i - 1) % 10 != 0) {
+					file = new String("output_m"+i+".txt");
+					insertStringInFile(new File(file), 1, header);
+				}
 			}
 		}
 	     
