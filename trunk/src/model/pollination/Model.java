@@ -56,10 +56,10 @@ public class Model {
 	private void initPlants(int num_flowers) {
 		for(int i = 0; i < num_flowers; i++) {
 			if(i % 2 == 0) {
-				plants.add(new Plant(new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)),new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)), i, 1));
+				plants.add(new Plant(new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)),new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), i, 1));
 			}
 			else {
-				plants.add(new Plant(new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)), new DiploidGene(mt.nextInt(11), mt.nextInt(11)), i, 2));
+				plants.add(new Plant(new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), i, 2));
 			}
 		}
 	}
