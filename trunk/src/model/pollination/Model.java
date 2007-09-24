@@ -26,7 +26,7 @@ public class Model {
 		BagCollection<Plant> new_plants, temp_plants;
 		Plant plant_temp;
 		
-		for(int i = 0; i < 10000; i++) {
+		for(int i = 0; i < steps; i++) {
 			for(int j = 0; j < 500; j++) {
 				if(mt.nextInt(2)+2 % 2 == 0)
 					bee_a.move(plants);
