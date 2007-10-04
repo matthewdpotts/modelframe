@@ -34,7 +34,7 @@ public class Model {
 					bee_b.move(plants);
 			}
 			
-			if(i % 100 == 0) { // change to modify sample rate in time
+		//	if(i % 100 == 0) { // change to modify sample rate in time
 				temp_plants = (BagCollection<Plant>) plants.clone();
 				while(!temp_plants.isEmpty()) {
 					plant_temp = temp_plants.getAndRemove();
@@ -43,17 +43,22 @@ public class Model {
 							+ "\t" + Integer.toString(plant_temp.fit_a.getGeneSum()) + "\t" + Integer.toString(plant_temp.fit_b.getGeneSum()) + "\t"
 							+ Integer.toString(plant_temp.attract_a.getGeneSum()) + "\t" + Integer.toString(plant_temp.attract_b.getGeneSum()));
 				}
-			}
-			
+		//	}
+		
+				
 			new_plants = new BagCollection<Plant>();
 			while(!plants.isEmpty()) {
 				new_plants.add(plants.getAndRemove().reproduce());
+				System.out.println(i);
+			
 			}
 			this.plants = new_plants;
 		}
 	}
 	
 	private void initPlants(int num_flowers) {
+		Plant temp;
+		
 		for(int i = 0; i < num_flowers; i++) {
 			if(i % 2 == 0) {
 				plants.add(new Plant(new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)),new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), i, 1));
@@ -61,6 +66,15 @@ public class Model {
 			else {
 				plants.add(new Plant(new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), new DiploidGene(mt.nextInt(6), mt.nextInt(6)), i, 2));
 			}
+			
+		//	temp = plants.get();
+			
+		//	System.out.println(temp.id + "\t" + temp.plant_type + "\t" + temp.attract_a.getGeneSum(1) + "\t" +  temp.attract_a.getGeneSum(2) + 
+		//			"\t"+ temp.attract_b.getGeneSum(1) + "\t" +  temp.attract_b.getGeneSum(2) + 
+		//			"\t" + temp.fit_a.getGeneSum(1) + "\t" + temp.fit_a.getGeneSum(2) +
+		//			"\t" + temp.fit_b.getGeneSum(1) + "\t" + temp.fit_b.getGeneSum(2)
+		//			);
+		
 		}
 	}
 	
