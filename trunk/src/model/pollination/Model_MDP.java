@@ -2,7 +2,6 @@ package model.pollination;
 
 import java.io.FileNotFoundException;
 
-import model.BagCollection;
 import java.util.*;
 import model.Printer;
 import model.MersenneTwisterFast;
@@ -37,7 +36,7 @@ public class Model_MDP {
 					bee_b.move(plants);
 			}
 			
-			System.out.println("got to here");
+		//	System.out.println("got to here");
 			
 			if(i % 100 == 0) { // change to modify sample rate in time
 				for(int k = 0; k < 100; k++) {
@@ -46,6 +45,7 @@ public class Model_MDP {
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
 							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b));
+					//	System.out.println(i + "\t" + num_new_plants);
 				}
 			}
 		
@@ -69,18 +69,19 @@ public class Model_MDP {
 			
 			int num_new_plants = 0;
 			
-		//	System.out.println(num_plants);
+		//	System.out.println(i + "\t" + num_plants);
 			
 			while(num_new_plants < 100) {
 				int rannum = mt.nextInt(num_plants);
 				int tempid = good_plants.get(rannum);
+			//	System.out.println(num_new_plants + "\t" + rannum + "\t" + tempid );
 				Plant_MDP temp = plants.get(tempid);
-				new_plants.add(plants.get(tempid).reproduce(plants));
-				new_plants.get(num_new_plants).PrintPlant();
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+			//	new_plants.get(num_new_plants).PrintPlant();
 				num_new_plants++;
-				
 			}
 			this.plants = new_plants;
+	//		System.out.println(i + "\t" + num_new_plants);
 		}
 	}
 	

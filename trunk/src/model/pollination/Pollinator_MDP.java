@@ -25,6 +25,7 @@ public class Pollinator_MDP {
 	
 	public void move(ArrayList<Plant_MDP> plants) {
 		int i = mt.nextInt(100); // should not hard code number of plants //
+	//	System.out.println(i);
 		Plant_MDP visit = plants.get(i);
 		boolean visited = visit_plant(visit);
 		if(visited) {
@@ -32,9 +33,9 @@ public class Pollinator_MDP {
 			receivePollen(visit);
 			losePollen();
 		}
-		else {
-			move(plants);
-		}
+	//	else {
+		//	move(plants);
+		//}
 	}
 	
 	/** Check here to ensure visiting is working as desired **/
