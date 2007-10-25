@@ -30,15 +30,16 @@ public class Plant_MDP {
 	}
 	
 	/** Problems may arise here! **/
-	public Plant_MDP reproduce(ArrayList<Plant_MDP> plants) {
+	public Plant_MDP reproduce(ArrayList<Plant_MDP> plant, int pnum) {
 		Ovule_MDP new_ovule;
 		Pollen_MDP new_pollen;
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
 		grain_id = givePollen();
-		Plant_MDP planto = plants.get(this.id);
-		Plant_MDP plantp = plants.get(grain_id);
-		planto.PrintPlant();
-		plantp.PrintPlant();
+		Plant_MDP planto = plant.get(this.id);
+		Plant_MDP plantp = plant.get(grain_id);
+	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
+	//	planto.PrintPlant();
+	//	plantp.PrintPlant();
 		new_ovule = makeOvule(planto);
 		new_pollen = makePollen(plantp);
 		a1sum_a = new_ovule.attract_a;
@@ -49,7 +50,7 @@ public class Plant_MDP {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant_MDP(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, id, plant_type);
+		return new Plant_MDP(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type);
 	
 	}
 	
