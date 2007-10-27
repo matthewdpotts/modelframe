@@ -7,10 +7,10 @@ import model.MersenneTwisterFast;
 public class Plant_MDP {
 
 	public int id, plant_type; 
-	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains;
+	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
-	
-	private ArrayList<Integer> pollen;
+	private ArrayList<Integer> pollen; 
+	private ArrayList<Integer> st_pollen;
 	private int num_flowers, num_ovules;
 //	private int[] num_pollen_types;  -- Do we need this if we have the pollenTypes method?
 	
@@ -24,9 +24,11 @@ public class Plant_MDP {
 		this.MAX_LOCI = 10;
 		num_flowers = 1;
 		this.num_pollen_grains = 100;
+		this.num_st_pollen_grains = 0;
 		num_ovules = 3;
 		pollen = new ArrayList<Integer>(0);
 		initPollen();
+		st_pollen = new ArrayList<Integer> (0);
 	}
 	
 	/** Problems may arise here! **/
@@ -34,7 +36,8 @@ public class Plant_MDP {
 		Ovule_MDP new_ovule;
 		Pollen_MDP new_pollen;
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
-		grain_id = givePollen();
+		grain_id = giveStPollen();
+	/** DO I NEED TO CHANGE BELOW TO STIGMA POLLEN ALSO? **/
 		Plant_MDP planto = plant.get(this.id);
 		Plant_MDP plantp = plant.get(grain_id);
 	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
@@ -65,12 +68,26 @@ public class Plant_MDP {
 			return temp;
 		}
 			return -1;
+	/** PROBLEM HERE (RETURNING -1) **/
+	}
+	
+	public int giveStPollen() {
+		int temp = 0;
+		if(this.num_st_pollen_grains != 0)
+		{
+			int rannum = mt.nextInt(this.num_st_pollen_grains);
+			temp = st_pollen.get(rannum);
+			st_pollen.remove(rannum);
+			this.num_st_pollen_grains--;
+			return temp;
+		}
+			return -1;
 	}
 	
 	public void receivePollen(int temp) 
 	{
-		pollen.add(temp);
-		this.num_pollen_grains++;
+		st_pollen.add(temp);
+		this.num_st_pollen_grains++;
 	};
 	
 	public Ovule_MDP makeOvule(Plant_MDP plant)
