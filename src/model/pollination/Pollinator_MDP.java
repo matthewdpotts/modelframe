@@ -30,13 +30,13 @@ public class Pollinator_MDP {
 		boolean visited = visit_plant(visit);
 		if(visited) {
 			depositPollen(visit);
-			receivePollen(visit);
-			losePollen();
+			receivePollen(visit);}
+		losePollen();
 		}
 	//	else {
 		//	move(plants);
 		//}
-	}
+
 	
 	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant_MDP visit) {
@@ -127,7 +127,7 @@ public class Pollinator_MDP {
 			}
 		}
 		else if(type == 2) {
-			for(int i = 0; i < sum_b*10 && !pollen.isEmpty(); i++) {
+			for(int i = 0; i < sum_b*10 && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
 				pollen.add(grain);
 				num_grains++;
@@ -141,7 +141,7 @@ public class Pollinator_MDP {
 		int rannum;
 		if(num_grains > 0) 
 		{
-			int num_lose = (int)((double)num_grains * pollen_loss_pickup);
+			int num_lose = (int)((double)num_grains * pollen_loss_rate);
 			for(int i = 0; i < num_lose && !pollen.isEmpty(); i++) 
 			{
 				rannum = mt.nextInt(num_grains);
