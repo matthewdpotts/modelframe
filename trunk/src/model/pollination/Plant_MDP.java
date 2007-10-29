@@ -37,9 +37,11 @@ public class Plant_MDP {
 		Pollen_MDP new_pollen;
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
 		grain_id = giveStPollen();
-	/** DO I NEED TO CHANGE BELOW TO STIGMA POLLEN ALSO? **/
+		
+		/** DO I NEED TO CHANGE BELOW TO STIGMA POLLEN ALSO? **/
 		Plant_MDP planto = plant.get(this.id);
 		Plant_MDP plantp = plant.get(grain_id);
+	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
 	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
 	//	planto.PrintPlant();
 	//	plantp.PrintPlant();
@@ -86,6 +88,8 @@ public class Plant_MDP {
 	
 	public void receivePollen(int temp) 
 	{
+		
+	//	System.out.println("receive " + temp);
 		st_pollen.add(temp);
 		this.num_st_pollen_grains++;
 	};
@@ -134,7 +138,7 @@ public class Plant_MDP {
 	
 	public void PrintPlant()
 	{
-					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + 
+					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
 						"\t"+ this.attract_a + "\t" +  this.attract_b + 
 							"\t" + this.fit_a + "\t" + this.fit_b
 							);

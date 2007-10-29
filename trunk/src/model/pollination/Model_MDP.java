@@ -52,33 +52,38 @@ public class Model_MDP {
 			good_plants = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant_MDP>(0);
 			int num_plants = 0;
+			
+		//	System.out.println("got to here");
+			
 			for(int k = 0;k < 100;k++)
 			{ 
-				plant_temp = plants.get(k);
-				
 				Plant_MDP temp = plants.get(k);
 				
-			//	temp.PrintPlant();
-						
-				for(int j = 0; j < Math.min(3,plant_temp.num_pollen_grains); j++)
-				{
-					good_plants.add(plant_temp.id);
+				
+				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
+				{					
+					//temp.PrintPlant();
+					good_plants.add(temp.id);
 					num_plants++;
 				}
 			}
 			
 			int num_new_plants = 0;
 			
-		//	System.out.println(i + "\t" + num_plants);
+			System.out.println(i + "\t" + num_plants);
 			
 			while(num_new_plants < 100) {
 				int rannum = mt.nextInt(num_plants);
 				int tempid = good_plants.get(rannum);
 			//	System.out.println(num_new_plants + "\t" + rannum + "\t" + tempid );
 				Plant_MDP temp = plants.get(tempid);
+			//	temp.PrintPlant();
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+				good_plants.remove(rannum);
+				num_plants--;
 			//	new_plants.get(num_new_plants).PrintPlant();
 				num_new_plants++;
+				
 			}
 			this.plants = new_plants;
 	//		System.out.println(i + "\t" + num_new_plants);
