@@ -25,6 +25,8 @@ public class Model_MDP {
 	public void run(int steps) {
 		ArrayList<Plant_MDP> new_plants;
 		ArrayList<Integer> good_plants;
+		ArrayList<Integer> good_plants_1;
+		ArrayList<Integer> good_plants_2;
 		Plant_MDP plant_temp;
 		
 		for(int i = 0; i < steps; i++) {
@@ -50,28 +52,41 @@ public class Model_MDP {
 			}
 		
 			good_plants = new ArrayList<Integer>(0);
+			good_plants_1 = new ArrayList<Integer>(0);
+			good_plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant_MDP>(0);
 			int num_plants = 0;
+			int num_plants_1 = 0;
+			int num_plants_2 = 0;
 			
 		//	System.out.println("got to here");
 			
 			for(int k = 0;k < 100;k++)
 			{ 
 				Plant_MDP temp = plants.get(k);
-				
-				
 				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
 				{					
-					//temp.PrintPlant();
+					if(temp.plant_type == 1)
+					{
+						good_plants_1.add(temp.id);
+						num_plants_1++;
+					}
+					else if(temp.plant_type == 2)
+					{
+						good_plants_2.add(temp.id);
+						num_plants_2++;
+					}
 					good_plants.add(temp.id);
 					num_plants++;
 				}
 			}
 			
 			int num_new_plants = 0;
+			int num_new_plants_1 = 0;
+			int num_new_plants_2 = 0;
 			
-			System.out.println(i + "\t" + num_plants);
-			
+			System.out.println(i + "\t" + num_plants + "\t" + num_plants_2 + "\t" + num_plants_2);
+		/*	
 			while(num_new_plants < 100) {
 				int rannum = mt.nextInt(num_plants);
 				int tempid = good_plants.get(rannum);
@@ -85,6 +100,31 @@ public class Model_MDP {
 				num_new_plants++;
 				
 			}
+			*/
+			while(num_new_plants_1 < 50 & !good_plants_1.isEmpty()) 
+			{
+				int rannum = mt.nextInt(num_plants_1);
+				int tempid = good_plants_1.get(rannum);
+				Plant_MDP temp = plants.get(tempid);
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+				good_plants_1.remove(rannum);
+				num_plants_1--;
+				num_new_plants_1++;
+				num_new_plants++;
+			}
+			
+			while(num_new_plants_2 < 50 & !good_plants_2.isEmpty()) 
+			{
+				int rannum = mt.nextInt(num_plants_2);
+				int tempid = good_plants_2.get(rannum);
+				Plant_MDP temp = plants.get(tempid);
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+				good_plants_2.remove(rannum);
+				num_plants_2--;
+				num_new_plants_2++;
+				num_new_plants++;
+			}
+			
 			this.plants = new_plants;
 	//		System.out.println(i + "\t" + num_new_plants);
 		}

@@ -56,8 +56,28 @@ public class Plant_MDP {
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
 		return new Plant_MDP(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type);
-	
 	}
+	
+	public Plant_MDP self(ArrayList<Plant_MDP> plant, int pnum) {
+		Ovule_MDP new_ovule;
+		Pollen_MDP new_pollen;
+		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b;
+		Plant_MDP planto = plant.get(this.id);
+		Plant_MDP plantp = plant.get(this.id);
+		new_ovule = makeOvule(planto);
+		new_pollen = makePollen(plantp);
+		a1sum_a = new_ovule.attract_a;
+		a2sum_a = new_pollen.attract_a;
+		a1sum_b = new_ovule.attract_b;
+		a2sum_b = new_pollen.attract_b;
+		f1sum_a = new_ovule.fit_a;
+		f2sum_a = new_pollen.fit_a;
+		f1sum_b = new_ovule.fit_b;
+		f2sum_b = new_pollen.fit_b;
+		return new Plant_MDP(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type);
+	}
+	
+	
 	
 	public int givePollen() {
 		int temp = 0;
