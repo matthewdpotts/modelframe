@@ -11,8 +11,9 @@ public class Plant_MDP {
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<Integer> pollen; 
 	private ArrayList<Integer> st_pollen;
-	private int num_flowers, num_ovules;
-//	private int[] num_pollen_types;  -- Do we need this if we have the pollenTypes method?
+	public int num_flowers;
+	public int num_ovules;
+
 	
 	public Plant_MDP(int attract_a, int attract_b, int fit_a, int  fit_b, int id, int plant_type) {
 		this.id = id;
@@ -31,20 +32,13 @@ public class Plant_MDP {
 		st_pollen = new ArrayList<Integer> (0);
 	}
 	
-	/** Problems may arise here! **/
 	public Plant_MDP reproduce(ArrayList<Plant_MDP> plant, int pnum) {
 		Ovule_MDP new_ovule;
 		Pollen_MDP new_pollen;
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
 		grain_id = giveStPollen();
-		
-		/** DO I NEED TO CHANGE BELOW TO STIGMA POLLEN ALSO? **/
 		Plant_MDP planto = plant.get(this.id);
 		Plant_MDP plantp = plant.get(grain_id);
-	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
-	//	System.out.println(planto.id + "\t" + plantp.id + "\t" + grain_id );
-	//	planto.PrintPlant();
-	//	plantp.PrintPlant();
 		new_ovule = makeOvule(planto);
 		new_pollen = makePollen(plantp);
 		a1sum_a = new_ovule.attract_a;
@@ -78,7 +72,6 @@ public class Plant_MDP {
 	}
 	
 	
-	
 	public int givePollen() {
 		int temp = 0;
 		if(this.num_pollen_grains != 0)
@@ -108,8 +101,6 @@ public class Plant_MDP {
 	
 	public void receivePollen(int temp) 
 	{
-		
-	//	System.out.println("receive " + temp);
 		st_pollen.add(temp);
 		this.num_st_pollen_grains++;
 	};
@@ -160,70 +151,17 @@ public class Plant_MDP {
 	{
 					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
 						"\t"+ this.attract_a + "\t" +  this.attract_b + 
-							"\t" + this.fit_a + "\t" + this.fit_b
-							);
+							"\t" + this.fit_a + "\t" + this.fit_b);
 	}
-	
-/*	public int[] numEachPollenGrainType() {
-		int[] num_types = numPollenTypes();
-		int max_id = num_types[1];
-		int[] temp_arr = new int[max_id];
-		
-		while(!pollen.isEmpty()) {
-			temp_arr[pollen.get().orig_flower_id]++;
-		}
-		
-		return temp_arr;
-	}
-	*/
-	/*
-	private int[] numPollenTypes() {
-		BagCollection<Integer> temp_nums = new BagCollection<Integer>();
-		int max_id = 0;
-		
-		while(!pollen.isEmpty()) {
-			Pollen temp_pollen = pollen.get();
-			if(temp_pollen.orig_flower_id > max_id) 
-				max_id = temp_pollen.orig_flower_id;
-			temp_nums.add(Integer.valueOf(temp_pollen.orig_flower_id));
-		}
-		
-		int[] temp_return = {temp_nums.size(), max_id};
-		
-		return temp_return;
-	} 
-	 */
-	
-	private void initPollen() {
-		for(int i = 0; i < num_pollen_grains; i++) {
-			pollen.add(this.id);
-		}
-	/*
-		Pollen temp;
-		temp = pollen.get();
-		
-		System.out.println(temp.orig_flower_id + "\t" + temp.plant_type + "\t" + temp.attract_a.getGeneSum(1) + "\t" +  temp.attract_a.getGeneSum(2) + 
-					"\t"+ temp.attract_b.getGeneSum(1) + "\t" +  temp.attract_b.getGeneSum(2) + 
-		//			"\t" + temp.fit_a.getGeneSum(1) + "\t" + temp.fit_a.getGeneSum(2) +
-		//			"\t" + temp.fit_b.getGeneSum(1) + "\t" + temp.fit_b.getGeneSum(2)
-		//			);
-		
-					this.orig_flower_id = flower_id;
-		this.attract_a = attract_a;
-		this.attract_b = attract_b;
-		this.fit_a = fit_a;
-		this.fit_b = fit_b;
-	*/				
-	}
-}
 	
 
-/*
-	private void initOvules() {
-		for(int i = 0; i < num_ovules; i++) {
-			ovules.add(new Ovule(id, attract_a.produceHaploid(), attract_b.produceHaploid(), fit_a.produceHaploid(), fit_b.produceHaploid()));
+	
+	private void initPollen() 
+	{
+		for(int i = 0; i < num_pollen_grains; i++) 
+		{
+			pollen.add(this.id);
 		}
-		
 	}
 }
-*/
+

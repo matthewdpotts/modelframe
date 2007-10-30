@@ -1,6 +1,4 @@
 package model.pollination;
-import java.util.*;
-
 
 public class Pollen_MDP {
 	

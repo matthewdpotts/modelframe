@@ -1,8 +1,5 @@
 package model.pollination;
 
-import java.util.*;
-
-
 public class Ovule_MDP {
 	
 	public int attract_a, attract_b, fit_a, fit_b;
