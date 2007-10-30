@@ -28,26 +28,23 @@ public class Model_MDP {
 		ArrayList<Integer> good_plants_1;
 		ArrayList<Integer> good_plants_2;
 		Plant_MDP plant_temp;
+		Plant_MDP temp;
 		
 		for(int i = 0; i < steps; i++) {
 			for(int j = 0; j < 500; j++) {
-			//	System.out.println(i + "\t" + j);
 				if(mt.nextInt(2)+2 % 2 == 0)
 					bee_a.move(plants);
 				else
 					bee_b.move(plants);
 			}
 			
-		//	System.out.println("got to here");
-			
-			if(i % 100 == 0) { // change to modify sample rate in time
+			if(i % 100 == 0) { 
 				for(int k = 0; k < 100; k++) {
 					plant_temp = plants.get(k);
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
 							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b));
-					//	System.out.println(i + "\t" + num_new_plants);
 				}
 			}
 		
@@ -58,12 +55,10 @@ public class Model_MDP {
 			int num_plants = 0;
 			int num_plants_1 = 0;
 			int num_plants_2 = 0;
-			
-		//	System.out.println("got to here");
-			
+					
 			for(int k = 0;k < 100;k++)
 			{ 
-				Plant_MDP temp = plants.get(k);
+				temp = plants.get(k);
 				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
 				{					
 					if(temp.plant_type == 1)
@@ -105,7 +100,7 @@ public class Model_MDP {
 			{
 				int rannum = mt.nextInt(num_plants_1);
 				int tempid = good_plants_1.get(rannum);
-				Plant_MDP temp = plants.get(tempid);
+				temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_1.remove(rannum);
 				num_plants_1--;
@@ -113,20 +108,26 @@ public class Model_MDP {
 				num_new_plants++;
 			}
 			
+//			int num_self_1 = 50 - num_new_plants_1;
+	
 			while(num_new_plants_2 < 50 & !good_plants_2.isEmpty()) 
 			{
 				int rannum = mt.nextInt(num_plants_2);
 				int tempid = good_plants_2.get(rannum);
-				Plant_MDP temp = plants.get(tempid);
+				temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_2.remove(rannum);
 				num_plants_2--;
 				num_new_plants_2++;
 				num_new_plants++;
 			}
+	
+//			int num_self_2 = 50 - num_new_plants_2;
+			
+		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2);
+			
 			
 			this.plants = new_plants;
-	//		System.out.println(i + "\t" + num_new_plants);
 		}
 	}
 	
@@ -140,16 +141,6 @@ public class Model_MDP {
 				plants.add(new Plant_MDP(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2));
 			}
 			
-		/*	
-		for(int i = 0; i < 100;i++) 
-		{
-			Plant_MDP temp = plants.get(i);
-				
-				System.out.println(temp.id + "\t" + temp.plant_type + "\t" + temp.num_pollen_grains + 
-						"\t"+ temp.attract_a + "\t" +  temp.attract_b + 
-						"\t" + temp.fit_a + "\t" + temp.fit_b
-						);
-		}*/
 	}
 	
 	

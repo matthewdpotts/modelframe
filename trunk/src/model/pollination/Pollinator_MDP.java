@@ -27,12 +27,17 @@ public class Pollinator_MDP {
 		int i = mt.nextInt(100); // should not hard code number of plants //
 		Plant_MDP visit = plants.get(i);
 		boolean visited = visit_plant(visit);
-		if(visited) {
+		if(visited) 
+			{
 			depositPollen(visit);
-			receivePollen(visit);}
+			receivePollen(visit);
+			}
+		else 
+			{
+			move(plants);
+			}
 		losePollen();
-		}
-	
+	}
 	
 	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant_MDP visit) {
@@ -66,7 +71,7 @@ public class Pollinator_MDP {
 				grain = pollen.get(rannum);
 				pollen.remove(rannum);
 				num_grains--;
-				visit.receivePollen(grain);
+				visit.receivePollen(grain, type);
 			}
 		}
 		else if(type == 2) {
@@ -77,7 +82,7 @@ public class Pollinator_MDP {
 			grain = pollen.get(rannum);
 			pollen.remove(rannum);
 			num_grains--;
-			visit.receivePollen(grain);
+			visit.receivePollen(grain, type);
 			}
 		}
 }
