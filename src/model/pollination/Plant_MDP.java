@@ -83,7 +83,6 @@ public class Plant_MDP {
 			return temp;
 		}
 			return -1;
-	/** PROBLEM HERE (RETURNING -1) **/
 	}
 	
 	public int giveStPollen() {
@@ -99,10 +98,13 @@ public class Plant_MDP {
 			return -1;
 	}
 	
-	public void receivePollen(int temp) 
+	public void receivePollen(int temp, int pollen_plant_type) 
 	{
-		st_pollen.add(temp);
-		this.num_st_pollen_grains++;
+		if(pollen_plant_type == this.plant_type)
+		{
+			st_pollen.add(temp);
+			this.num_st_pollen_grains++;
+		}
 	};
 	
 	public Ovule_MDP makeOvule(Plant_MDP plant)
