@@ -25,16 +25,12 @@ public class Pollinator_MDP {
 	
 	public void move(ArrayList<Plant_MDP> plants) {
 		int i = mt.nextInt(100); // should not hard code number of plants //
-	//	System.out.println(i);
 		Plant_MDP visit = plants.get(i);
 		boolean visited = visit_plant(visit);
-	//	System.out.println("In visit  "+ visited);
 		if(visited) {
 			depositPollen(visit);
 			receivePollen(visit);}
 		losePollen();
-		//System.out.println("Move\t" + type + "\t" + num_grains + "\t" + visited);
-	//	visit.PrintPlant();
 		}
 	
 	
@@ -49,36 +45,7 @@ public class Pollinator_MDP {
 		}
 		return false;
 	}
-	/*
-	public int[] numEachPollenGrainType() {
-		int[] num_types = numPollenTypes();
-		int max_id = num_types[1];
-		int[] temp_arr = new int[max_id];
-		
-		while(!pollen.isEmpty()) {
-			temp_arr[pollen.get().orig_flower_id]++;
-		}
-		
-		return temp_arr;
-	}
-	
-	private int[] numPollenTypes() {
-		BagCollection<Integer> temp_nums = new BagCollection<Integer>();
-		int max_id = 0;
-		
-		while(!pollen.isEmpty()) {
-			Pollen temp_pollen = pollen.get();
-			if(temp_pollen.orig_flower_id > max_id) 
-				max_id = temp_pollen.orig_flower_id;
-			temp_nums.add(Integer.valueOf(temp_pollen.orig_flower_id));
-		}
-		
-		int[] temp_return = {temp_nums.size(), max_id};
-		
-		return temp_return;
-	}
-	*/
-	
+
 	/** Take a look here to make sure pollen depositing is going as expected. **/
 	private void depositPollen(Plant_MDP visit) {
 		int sum_a = visit.fit_a;
@@ -86,7 +53,6 @@ public class Pollinator_MDP {
 		int rannum;
 		int grain;
 		
-	//	System.out.println(first_visit + "\t" + num_grains + "\t" + sum_a +  "\t" + sum_b + "\t" + pollen.isEmpty());
 		
 		if(first_visit == true) 
 		{
@@ -94,27 +60,23 @@ public class Pollinator_MDP {
 		}
 		else if(type == 1) {
 			for(int i = 0; i <  sum_a && !pollen.isEmpty(); i++) {
-			//	System.out.println(num_grains + "\t" + sum_a +  "\t" + sum_b);
 				if(pollen.isEmpty())
 						first_visit = true;
 				rannum = mt.nextInt(num_grains);
 				grain = pollen.get(rannum);
 				pollen.remove(rannum);
 				num_grains--;
-			//	System.out.println(grain);
 				visit.receivePollen(grain);
 			}
 		}
 		else if(type == 2) {
 			for(int i = 0; i < sum_b && !pollen.isEmpty(); i++) {
-			//	System.out.println(num_grains + "\t" + sum_a +  "\t" + sum_b);
 				if(pollen.isEmpty())
 					first_visit = true;
 			rannum = mt.nextInt(num_grains);
 			grain = pollen.get(rannum);
 			pollen.remove(rannum);
 			num_grains--;
-		//	System.out.println(grain);
 			visit.receivePollen(grain);
 			}
 		}
@@ -124,7 +86,6 @@ public class Pollinator_MDP {
 		int sum_a = visit.fit_a;
 		int sum_b = visit.fit_b;
 		int grain;
-	//	visit.PrintPlant();
 		
 		if(type == 1) {
 			for(int i = 0; i <  sum_a*10 && visit.num_pollen_grains != 0; i++) {
@@ -143,8 +104,6 @@ public class Pollinator_MDP {
 		
 		if(!pollen.isEmpty())
 			first_visit = false;
-	//	System.out.println("Receive\t" + type + "\t" + num_grains + "\t" + sum_a +  "\t" + sum_b + "\t" + pollen.isEmpty());
-	//	visit.PrintPlant();	
 }
 	
 	
