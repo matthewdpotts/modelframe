@@ -20,6 +20,8 @@ public class Mosquito extends Organism {
 	public int bitecount; 
 	private int bitetime;
 	private double mean_dist;
+	private boolean bitten;
+	private boolean infected;
 
 	/**
 	 * Class constructor which when called, defines 
@@ -35,6 +37,8 @@ public class Mosquito extends Organism {
 		mean_dist = dist;
 		bitecount = 0;
 		bitetime = 0;
+		bitten = false;
+		infected = false;
 	}
 	
 	
@@ -84,5 +88,41 @@ public class Mosquito extends Organism {
 	 */
 	public double getMeanDist() {
 		return mean_dist;
+	}
+	
+	/**
+	 * Returns the boolean value of whether the mosquito is
+	 * infected.
+	 * 
+	 * @return <code>boolean</code> value of the infection state.
+	 */
+	public boolean isInfected() {
+		return infected;
+	}
+	
+	/**
+	 * Sets the infection state of the mosquito.
+	 * @param val <code>boolean</code> value of infection state
+	 */
+	public void setInfected(boolean val) {
+		infected = val;
+	}
+	
+	/**
+	 * Returns the boolean value of whether the mosquito has
+	 * bitten.
+	 * 
+	 * @return <code>boolean</code> value of the bitten state.
+	 */
+	public boolean hasBitten() {
+		return bitten;
+	}
+	
+	/**
+	 * Sets the infection state of the mosquito.
+	 * @param val <code>boolean</code> value of bitten state
+	 */
+	public void setBitten() {
+		bitten = true;
 	}
 }

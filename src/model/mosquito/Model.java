@@ -54,7 +54,65 @@ public class Model {
 		printer_s.printHeader();
 	}
 	
-	public void run(int steps, int num_h, int num_m) throws IOException	{
+	public void runTilBiteSaturation(int num_h, int num_m) throws IOException {
+		int arr[] = new int[2];
+		int step = 0;
+		data = new double[4][10000000];
+		boolean isSaturated = false;
+		
+		human_arr = new Human[num_h];
+		mosq_arr = new Mosquito[num_m];
+		arr[0] = num_h;
+		arr[1] = num_m;
+		
+		populate(arr);
+		
+		HashSet<Integer> mosq_ind = new HashSet<Integer>();
+		HashSet<Integer> human_ind = new HashSet<Integer>();
+		for(i = 0; i < mosq_arr.length; i++) {
+			mosq_ind.add(Integer.valueOf(i));
+		}
+		for(i = 0; i < human_arr.length; i++) {
+			human_ind.add(Integer.valueOf(i));
+		}
+		
+		while(!isSaturated) {
+			Iterator<Integer> mosq_itr = mosq_ind.iterator();
+			Iterator<Integer> human_itr = human_ind.iterator();
+			
+			while(mosq_itr.hasNext() || human_itr.hasNext()) {
+				boolean choice_act = mt.nextBoolean();
+				int temp_index;
+				if(choice_act && mosq_itr.hasNext()) {
+					temp_index = mosq_itr.next().intValue();
+					mosq_action(mosq_arr[temp_index], data, temp_index, step);
+				}
+				else if(choice_act && !mosq_itr.hasNext() && human_itr.hasNext())
+					move(human_arr[human_itr.next().intValue()]);
+				else if(!choice_act && human_itr.hasNext())
+					move(human_arr[human_itr.next().intValue()]);
+				else if(!choice_act && !human_itr.hasNext() && mosq_itr.hasNext()) {
+					temp_index = mosq_itr.next().intValue();
+					mosq_action(mosq_arr[temp_index], data, temp_index, step);
+				}
+				else
+					break;
+			}
+			
+			if(i % 1000 == 0) {
+				runner.gc();
+			}
+			
+			step++;
+			isSaturated = allMosqsBitten(mosq_arr);
+		}
+	}
+	
+	
+	
+	
+	// Runs for a given number of steps
+	public void runBySteps(int steps, int num_h, int num_m) throws IOException	{
 		int arr[] = new int[2];
 		data = new double[4][steps];
 		
@@ -88,10 +146,11 @@ public class Model {
 			}
 		}
 
-		processData(data, steps, num_h, num_m);
+		processData_StepModel(data, steps, num_h, num_m);
 	}
 	
-	public void runPotts(int steps, int num_h, int num_m) throws IOException {
+	// Runs for a given number of steps, Potts variation.
+	public void runBySteps_Potts(int steps, int num_h, int num_m) throws IOException {
 		int arr[] = new int[2];
 		data = new double[4][steps];
 
@@ -140,16 +199,18 @@ public class Model {
 			}
 		}
 		
-		processData(data, steps, num_h, num_m);
+		processData_StepModel(data, steps, num_h, num_m);
 		
 	}  
+
 	
-	public void runKapitanski(int steps, int num_h, int num_m) throws IOException {
+	// Runs for a given number of steps, Kapitanski variation.
+	public void runBySteps_Kapitanski(int steps, int num_h, int num_m) throws IOException {
 		
 	}
 	
 	
-	private void processData(double data[][], int steps, int num_h, int num_m) {
+	private void processData_StepModel(double data[][], int steps, int num_h, int num_m) {
 		
 		for(j = 0; j < steps; j++) {
 			data[Model.WAIT_AVG][j] = data[Model.WAIT_AVG][j] / (double)num_m;
@@ -171,6 +232,15 @@ public class Model {
 		printer_s.closeFile();
 
 	}	
+	
+	public boolean allMosqsBitten(Mosquito[] mosqs) {
+		
+		for(int i = 0; i < mosqs.length; i++) {
+			if(!mosqs[i].hasBitten())
+				return false;
+		}
+		return true;
+	}
 	
 	private void populate(int numSpecs[]) {
 		int x, y, index;
