@@ -18,6 +18,7 @@ package model.mosquito;
 public class Human extends Organism {
 	
 	private double mean_dist;
+	private boolean infected;
 	
 	/**
 	 * Class constructor which when called, defines 
@@ -30,6 +31,7 @@ public class Human extends Organism {
 	public Human(int xpos, int ypos, double dist) {
 		super(xpos, ypos);
 		mean_dist = dist;
+		infected = false;
 	}
 	
 	/**
@@ -60,4 +62,21 @@ public class Human extends Organism {
 		return mean_dist;
 	}
 	
+	/**
+	 * Returns the boolean value of whether the mosquito is
+	 * infected.
+	 * 
+	 * @return <code>boolean</code> value of the infection state.
+	 */
+	public boolean isInfected() {
+		return infected;
+	}
+	
+	/**
+	 * Sets the infection state of the mosquito.
+	 * @param val <code>boolean</code> value of infection state
+	 */
+	public void setInfected(boolean val) {
+		infected = val;
+	}
 }
