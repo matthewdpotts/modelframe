@@ -7,10 +7,11 @@ import model.MersenneTwisterFast;
 public class Plant_MDP {
 
 	public int id, plant_type; 
-	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains;
+	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains_good, num_st_pollen_grains_bad;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<Integer> pollen; 
-	private ArrayList<Integer> st_pollen;
+	private ArrayList<Integer> st_pollen_good;
+	private ArrayList<Integer> st_pollen_bad;
 	public int num_flowers;
 	public int num_ovules;
 
@@ -25,11 +26,13 @@ public class Plant_MDP {
 		this.MAX_LOCI = 10;
 		num_flowers = 1;
 		this.num_pollen_grains = 100;
-		this.num_st_pollen_grains = 0;
+		this.num_st_pollen_grains_good = 0;
+		this.num_st_pollen_grains_bad = 0;
 		num_ovules = 3;
 		pollen = new ArrayList<Integer>(0);
 		initPollen();
-		st_pollen = new ArrayList<Integer> (0);
+		st_pollen_good = new ArrayList<Integer> (0);
+		st_pollen_bad = new ArrayList<Integer> (0);
 	}
 	
 	public Plant_MDP reproduce(ArrayList<Plant_MDP> plant, int pnum) {
@@ -87,12 +90,12 @@ public class Plant_MDP {
 	
 	public int giveStPollen() {
 		int temp = 0;
-		if(this.num_st_pollen_grains != 0)
+		if(this.num_st_pollen_grains_good != 0)
 		{
-			int rannum = mt.nextInt(this.num_st_pollen_grains);
-			temp = st_pollen.get(rannum);
-			st_pollen.remove(rannum);
-			this.num_st_pollen_grains--;
+			int rannum = mt.nextInt(this.num_st_pollen_grains_good);
+			temp = st_pollen_good.get(rannum);
+			st_pollen_good.remove(rannum);
+			this.num_st_pollen_grains_good--;
 			return temp;
 		}
 			return -1;
@@ -102,9 +105,14 @@ public class Plant_MDP {
 	{
 		if(pollen_plant_type == this.plant_type)
 		{
-			st_pollen.add(temp);
-			this.num_st_pollen_grains++;
+			st_pollen_good.add(temp);
+			this.num_st_pollen_grains_good++;
 		}
+		if(pollen_plant_type != this.plant_type)
+		{
+			st_pollen_bad.add(temp);
+			this.num_st_pollen_grains_bad++;
+		}	
 	};
 	
 	public Ovule_MDP makeOvule(Plant_MDP plant)
@@ -151,7 +159,7 @@ public class Plant_MDP {
 	
 	public void PrintPlant()
 	{
-					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
+					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains_good +
 						"\t"+ this.attract_a + "\t" +  this.attract_b + 
 							"\t" + this.fit_a + "\t" + this.fit_b);
 	}

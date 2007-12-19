@@ -27,6 +27,8 @@ public class Model_MDP {
 		ArrayList<Integer> good_plants;
 		ArrayList<Integer> good_plants_1;
 		ArrayList<Integer> good_plants_2;
+		ArrayList<Integer> plants_1;
+		ArrayList<Integer> plants_2;
 		Plant_MDP plant_temp;
 		Plant_MDP temp;
 		
@@ -38,7 +40,7 @@ public class Model_MDP {
 					bee_b.move(plants);
 			}
 			
-			if(i % 100 == 0) { 
+			if(i % 10 == 0) { 
 				for(int k = 0; k < 100; k++) {
 					plant_temp = plants.get(k);
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
@@ -51,6 +53,8 @@ public class Model_MDP {
 			good_plants = new ArrayList<Integer>(0);
 			good_plants_1 = new ArrayList<Integer>(0);
 			good_plants_2 = new ArrayList<Integer>(0);
+			plants_1 = new ArrayList<Integer>(0);
+			plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant_MDP>(0);
 			int num_plants = 0;
 			int num_plants_1 = 0;
@@ -59,7 +63,15 @@ public class Model_MDP {
 			for(int k = 0;k < 100;k++)
 			{ 
 				temp = plants.get(k);
-				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
+				if(temp.plant_type == 1)
+				{	
+					plants_1.add(temp.id);
+				}	
+				if(temp.plant_type == 2)
+				{	
+					plants_2.add(temp.id);
+				}	
+				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains_good); j++)
 				{					
 					if(temp.plant_type == 1)
 					{
@@ -80,7 +92,7 @@ public class Model_MDP {
 			int num_new_plants_1 = 0;
 			int num_new_plants_2 = 0;
 			
-			System.out.println(i + "\t" + num_plants + "\t" + num_plants_2 + "\t" + num_plants_2);
+		//	System.out.println(i + "\t" + num_plants + "\t" + num_plants_1 + "\t" + num_plants_2);
 		/*	
 			while(num_new_plants < 100) {
 				int rannum = mt.nextInt(num_plants);
@@ -96,6 +108,7 @@ public class Model_MDP {
 				
 			}
 			*/
+			
 			while(num_new_plants_1 < 50 & !good_plants_1.isEmpty()) 
 			{
 				int rannum = mt.nextInt(num_plants_1);
@@ -108,8 +121,19 @@ public class Model_MDP {
 				num_new_plants++;
 			}
 			
-//			int num_self_1 = 50 - num_new_plants_1;
-	
+			int num_self_1 = 50 - num_new_plants_1;
+			while(num_self_1 > 0)
+			{
+				int rannum = mt.nextInt(50);
+				int tempid = plants_1.get(rannum);
+				System.out.println(tempid);
+				temp = 	new Plant_MDP(plants.get(tempid).attract_a, plants.get(tempid).attract_b,plants.get(tempid).fit_a,plants.get(tempid).fit_b, num_new_plants, 1);
+				new_plants.add(temp);
+				num_self_1--;
+				num_new_plants_1++;
+				num_new_plants++;
+			}
+			
 			while(num_new_plants_2 < 50 & !good_plants_2.isEmpty()) 
 			{
 				int rannum = mt.nextInt(num_plants_2);
@@ -122,9 +146,19 @@ public class Model_MDP {
 				num_new_plants++;
 			}
 	
-//			int num_self_2 = 50 - num_new_plants_2;
+			int num_self_2 = 50 - num_new_plants_2;
+			while(num_self_2 > 0)
+			{
+				int rannum = mt.nextInt(50);
+				int tempid = plants_2.get(rannum);
+				temp = 	new Plant_MDP(plants.get(tempid).attract_a, plants.get(tempid).attract_b,plants.get(tempid).fit_a,plants.get(tempid).fit_b, num_new_plants, 2);
+				new_plants.add(temp);
+				num_self_2--;
+				num_new_plants_2++;
+				num_new_plants++;
+			}
 			
-		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2);
+			System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2);
 			
 			
 			this.plants = new_plants;
