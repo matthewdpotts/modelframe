@@ -16,6 +16,7 @@ public class DiploidGene {
 		return sum_loci_1 + sum_loci_2;
 	}
 	
+	
 	public int getGeneSum(int type) {
 		if(type == 1) {
 			return sum_loci_1;
