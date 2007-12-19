@@ -11,15 +11,18 @@ public class Pollinator_MDP {
 	private int num_grains;
 	private boolean first_visit;
 	
-	public int type, xdim, ydim; 
-	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup;
+	public int type, xdim, ydim, num_visit, number_visit_between_groom; 
+	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup, groom_loss_rate;
 	
 	
 	public Pollinator_MDP(int type) {
 		this.type = type;
 		this.pollen_loss_rate = .2;
+		this.groom_loss_rate = .2;
+		num_visit = 0;
 		first_visit = true;
 		num_grains = 0;
+		num_visit = 0;
 		pollen = new  ArrayList<Integer>(0);
 	}
 	
@@ -31,13 +34,35 @@ public class Pollinator_MDP {
 			{
 			depositPollen(visit);
 			receivePollen(visit);
+			num_visit++;
 			}
 		else 
 			{
 			move(plants);
 			}
 		losePollen();
+		if(num_visit == this.number_visit_between_groom)
+		{	groomPollen();
+		}
+			
 	}
+	
+	private void groomPollen()
+	{
+		int rannum;
+		if(num_grains > 0) 
+		{
+			int num_lose = (int)((double)num_grains * groom_loss_rate);
+			for(int i = 0; i < num_lose && !pollen.isEmpty(); i++) 
+			{
+				rannum = mt.nextInt(num_grains);
+				pollen.remove(rannum);
+				num_grains--;
+			}
+		}
+	}
+		
+	
 	
 	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant_MDP visit) {
