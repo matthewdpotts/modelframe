@@ -36,7 +36,7 @@ public class Main {
 				else {
 					test = new Model(dim, dim, temp_m, temp_s);
 				}
-				test.runPotts(10000, num_h, num_m);
+//				test.runPotts(10000, num_h, num_m);
 				garb_var.gc();
 				
 				System.out.println("Time taken: "+(System.currentTimeMillis()-start_time)+"\n");
