@@ -1,6 +1,6 @@
 package model.mosquito;
 
-import model.LineInsert;
+import model.util.LineInsert;
 
 public class Main {
 	

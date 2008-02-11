@@ -1,7 +1,7 @@
 package model.tree;
 
 import java.util.Arrays;
-import model.MersenneTwisterFast;
+import model.util.MersenneTwisterFast;
 
 
 public class Tree {
