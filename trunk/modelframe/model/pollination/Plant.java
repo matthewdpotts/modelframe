@@ -2,7 +2,7 @@ package model.pollination;
 
 import java.util.*;
 
-import model.MersenneTwisterFast;
+import model.util.MersenneTwisterFast;
 
 public class Plant {
 

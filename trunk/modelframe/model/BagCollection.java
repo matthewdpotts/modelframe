@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import model.MersenneTwisterFast;
+import model.util.MersenneTwisterFast;
 
 public class BagCollection < E > extends ArrayList{
 	

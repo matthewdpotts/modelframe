@@ -4,6 +4,7 @@ package model.mosquito.threaded;
 import java.io.*;
 import java.util.*;
 import model.*;
+import model.util.Printer;
 import model.mosquito.Human;
 import model.mosquito.Mosquito;
 

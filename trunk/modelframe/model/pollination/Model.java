@@ -3,8 +3,8 @@ package model.pollination;
 import java.io.FileNotFoundException;
 
 import java.util.*;
-import model.Printer;
-import model.MersenneTwisterFast;
+import model.util.Printer;
+import model.util.MersenneTwisterFast;
 
 public class Model {
 
