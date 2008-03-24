@@ -10,21 +10,20 @@ public class Pollinator {
 	private ArrayList<Integer> pollen;
 	private int num_grains;
 	private boolean first_visit;
-	
 	public int type, xdim, ydim; 
 	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup;
 	
 	
-	public Pollinator(int type) {
+	public Pollinator(int type, double pollen_loss_rate) {
 		this.type = type;
-		this.pollen_loss_rate = .2;
+		this.pollen_loss_rate = pollen_loss_rate;
 		first_visit = true;
 		num_grains = 0;
 		pollen = new  ArrayList<Integer>(0);
 	}
 	
-	public void move(ArrayList<Plant> plants) {
-		int i = mt.nextInt(100); // should not hard code number of plants //
+	public void move(ArrayList<Plant> plants, int num_plants) {
+		int i = mt.nextInt(num_plants); // should not hard code number of plants //
 		Plant visit = plants.get(i);
 		boolean visited = visit_plant(visit);
 		if(visited) 

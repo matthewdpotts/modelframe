@@ -15,7 +15,7 @@ public class Plant {
 	public int num_ovules;
 
 	
-	public Plant(int attract_a, int attract_b, int fit_a, int  fit_b, int id, int plant_type) {
+	public Plant(int attract_a, int attract_b, int fit_a, int  fit_b, int id, int plant_type, int num_ovules, int num_flowers, int num_pollen_grains) {
 		this.id = id;
 		this.attract_a = attract_a;
 		this.attract_b = attract_b;
@@ -23,10 +23,10 @@ public class Plant {
 		this.fit_b = fit_b;
 		this.plant_type = plant_type;
 		this.MAX_LOCI = 10;
-		num_flowers = 1;
-		this.num_pollen_grains = 100;
+		this.num_flowers = num_flowers;
+		this.num_pollen_grains = num_pollen_grains;
 		this.num_st_pollen_grains = 0;
-		num_ovules = 3;
+		this.num_ovules = num_ovules;
 		pollen = new ArrayList<Integer>(0);
 		initPollen();
 		st_pollen = new ArrayList<Integer> (0);
@@ -49,7 +49,7 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type);
+		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, this.num_ovules, this.num_flowers, this.num_pollen_grains );
 	}
 	
 	public Plant self(ArrayList<Plant> plant, int pnum) {
@@ -68,7 +68,7 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type);
+		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, this.num_ovules, this.num_flowers, this.num_pollen_grains );
 	}
 	
 	
