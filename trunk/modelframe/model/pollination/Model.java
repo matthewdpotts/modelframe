@@ -13,16 +13,17 @@ public class Model {
 	private Pollinator bee_a, bee_b;
 	private Printer output;
 	
-	public Model(String file, int num_plants) throws FileNotFoundException {
+	public Model(String file, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
+ throws FileNotFoundException {
 		plants = new ArrayList<Plant>(0);
-		bee_a = new Pollinator(1);
-		bee_b = new Pollinator(2);
+		bee_a = new Pollinator(1,pollen_loss_rate_a);
+		bee_b = new Pollinator(2,pollen_loss_rate_b);
 		output = new Printer(file, "time\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b");
 		output.printHeader();
-		initPlants(num_plants);
+		initPlants(num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2);
 	}
 	
-	public void run(int steps) {
+	public void run(int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b) {
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants;
 		ArrayList<Integer> good_plants_1;
@@ -31,15 +32,15 @@ public class Model {
 		Plant temp;
 		
 		for(int i = 0; i < steps; i++) {
-			for(int j = 0; j < 500; j++) {
+			for(int j = 0; j < (num_vists_a+num_visits_b); j++) {
 				if(mt.nextInt(2)+2 % 2 == 0)
-					bee_a.move(plants);
+					bee_a.move(plants, (num_plants_1+num_plants_2));
 				else
-					bee_b.move(plants);
+					bee_b.move(plants, (num_plants_1+num_plants_2));
 			}
 			
 			if(i % 100 == 0) { 
-				for(int k = 0; k < 100; k++) {
+				for(int k = 0; k < (num_plants_1+num_plants_2); k++) {
 					plant_temp = plants.get(k);
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
@@ -56,7 +57,7 @@ public class Model {
 			int num_plants_1 = 0;
 			int num_plants_2 = 0;
 					
-			for(int k = 0;k < 100;k++)
+			for(int k = 0;k < (num_plants_1+num_plants_2);k++)
 			{ 
 				temp = plants.get(k);
 				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
@@ -96,7 +97,7 @@ public class Model {
 				
 			}
 			*/
-			while(num_new_plants_1 < 50 & !good_plants_1.isEmpty()) 
+			while(num_new_plants_1 < num_plants_1 & !good_plants_1.isEmpty()) 
 			{
 				int rannum = mt.nextInt(num_plants_1);
 				int tempid = good_plants_1.get(rannum);
@@ -110,7 +111,7 @@ public class Model {
 			
 //			int num_self_1 = 50 - num_new_plants_1;
 	
-			while(num_new_plants_2 < 50 & !good_plants_2.isEmpty()) 
+			while(num_new_plants_2 < num_plants_2  & !good_plants_2.isEmpty()) 
 			{
 				int rannum = mt.nextInt(num_plants_2);
 				int tempid = good_plants_2.get(rannum);
@@ -131,16 +132,15 @@ public class Model {
 		}
 	}
 	
-	private void initPlants(int num_plants) {
-		for(int i = 0; i < num_plants/2; i++) 
+	private void initPlants(int num_plants_1, int num_plants_2, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2) {
+		for(int i = 0; i < num_plants_1; i++) 
 			{
-				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1));
+				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
 			}
-		for(int i = num_plants/2; i < num_plants; i++) 
+		for(int i = num_plants_1; i < num_plants_2; i++) 
 			{
-				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2));
-			}
-			
+				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
+			}	
 	}
 	
 	
