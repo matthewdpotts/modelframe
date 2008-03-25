@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import model.util.MersenneTwisterFast;
 
-public class BagCollection < E > extends ArrayList{
+public class BagCollection < E > extends ArrayList < E > {
 	
 	private MersenneTwisterFast mt;
 	

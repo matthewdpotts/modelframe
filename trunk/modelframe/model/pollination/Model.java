@@ -23,7 +23,8 @@ public class Model {
 		initPlants(num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2);
 	}
 	
-	public void run(int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b) {
+	public void run(int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b) 
+	{
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants;
 		ArrayList<Integer> good_plants_1;
@@ -31,16 +32,20 @@ public class Model {
 		Plant plant_temp;
 		Plant temp;
 		
-		for(int i = 0; i < steps; i++) {
-			for(int j = 0; j < (num_vists_a+num_visits_b); j++) {
+		for(int i = 0; i < steps; i++) 
+		{
+			for(int j = 0; j < (num_visits_a+num_visits_b); j++) 
+			{
 				if(mt.nextInt(2)+2 % 2 == 0)
 					bee_a.move(plants, (num_plants_1+num_plants_2));
 				else
 					bee_b.move(plants, (num_plants_1+num_plants_2));
 			}
-			
-			if(i % 100 == 0) { 
-				for(int k = 0; k < (num_plants_1+num_plants_2); k++) {
+				
+			if(i % 100 == 0) 
+			{ 
+				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
+				{
 					plant_temp = plants.get(k);
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
@@ -54,10 +59,11 @@ public class Model {
 			good_plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant>(0);
 			int num_plants = 0;
-			int num_plants_1 = 0;
-			int num_plants_2 = 0;
+			/* how are these different from the passed in parameters...? */
+			int other_num_plants_1 = 0;
+			int other_num_plants_2 = 0;
 					
-			for(int k = 0;k < (num_plants_1+num_plants_2);k++)
+			for(int k = 0; k < (other_num_plants_1 + other_num_plants_2); k++)
 			{ 
 				temp = plants.get(k);
 				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
@@ -132,15 +138,16 @@ public class Model {
 		}
 	}
 	
-	private void initPlants(int num_plants_1, int num_plants_2, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2) {
+	private void initPlants(int num_plants_1, int num_plants_2, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2) 
+	{
 		for(int i = 0; i < num_plants_1; i++) 
-			{
-				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
-			}
+		{
+			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
+		}
 		for(int i = num_plants_1; i < num_plants_2; i++) 
-			{
-				plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
-			}	
+		{
+			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
+		}	
 	}
 	
 	

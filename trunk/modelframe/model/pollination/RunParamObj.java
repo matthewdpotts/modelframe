@@ -63,7 +63,7 @@ public class RunParamObj {
 		return num_visits_a;
 	}
 	
-	public int get_num_visits_a () {
+	public int get_num_visits_b () {
 		return num_visits_b;
 	}
 	

@@ -70,8 +70,7 @@ public class PollinationBatchReader implements BatchReader {
 		for ( int i = 0; i < commands.size(); i++ ) {
 			RunParamObj temp = commands.get(i);
 			try {
-			//	test = new Model (temp.get_filename(), temp.get_num_plants());
-				test.run(temp.get_num_steps());
+				test = new Model (temp.get_filename(), temp.get_num_plants());
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

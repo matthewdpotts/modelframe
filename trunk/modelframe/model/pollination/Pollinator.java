@@ -33,7 +33,7 @@ public class Pollinator {
 			}
 		else 
 			{
-			move(plants);
+			move(plants, num_plants);
 			}
 		losePollen();
 	}
