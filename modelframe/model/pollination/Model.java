@@ -34,6 +34,7 @@ public class Model {
 		
 		for(int i = 0; i < steps; i++) 
 		{
+			System.out.println("plants.size(): " + plants.size());
 			for(int j = 0; j < (num_visits_a+num_visits_b); j++) 
 			{
 				if(mt.nextInt(2)+2 % 2 == 0)
@@ -41,7 +42,8 @@ public class Model {
 				else
 					bee_b.move(plants, (num_plants_1+num_plants_2));
 			}
-				
+
+			
 			if(i % 100 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
@@ -59,9 +61,10 @@ public class Model {
 			good_plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant>(0);
 			int num_plants = 0;
-			/* how are these different from the passed in parameters...? */
-			int other_num_plants_1 = 0;
-			int other_num_plants_2 = 0;
+			int other_num_plants_1 = num_plants_1;
+			int other_num_plants_2 = num_plants_2;
+			num_plants_1 = 0;
+			num_plants_2 = 0;
 					
 			for(int k = 0; k < (other_num_plants_1 + other_num_plants_2); k++)
 			{ 
@@ -144,10 +147,12 @@ public class Model {
 		{
 			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
 		}
-		for(int i = num_plants_1; i < num_plants_2; i++) 
+		for(int i = 0; i < num_plants_2; i++) 
 		{
 			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
 		}	
+		
+		System.out.println("plants.size(): " + plants.size());
 	}
 	
 	
