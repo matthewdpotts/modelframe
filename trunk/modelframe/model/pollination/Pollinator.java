@@ -27,14 +27,14 @@ public class Pollinator {
 		Plant visit = plants.get(i);
 		boolean visited = visit_plant(visit);
 		if(visited) 
-			{
+		{
 			depositPollen(visit);
 			receivePollen(visit);
-			}
+		}
 		else 
-			{
+		{
 			move(plants, num_plants);
-			}
+		}
 		losePollen();
 	}
 	
