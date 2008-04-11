@@ -25,11 +25,13 @@ public class Pollinator {
 	public void move(ArrayList<Plant> plants, int num_plants) {
 		int i = mt.nextInt(num_plants); // should not hard code number of plants //
 		Plant visit = plants.get(i);
+	//	visit.PrintPlant();
 		boolean visited = visit_plant(visit);
 		if(visited) 
 		{
 			depositPollen(visit);
 			receivePollen(visit);
+	//		visit.PrintPlant();
 		}
 		else 
 		{

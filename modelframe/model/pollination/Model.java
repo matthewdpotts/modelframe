@@ -26,7 +26,6 @@ public class Model {
 	public void run(int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b) 
 	{
 		ArrayList<Plant> new_plants;
-		ArrayList<Integer> good_plants;
 		ArrayList<Integer> good_plants_1;
 		ArrayList<Integer> good_plants_2;
 		Plant plant_temp;
@@ -34,7 +33,7 @@ public class Model {
 		
 		for(int i = 0; i < steps; i++) 
 		{
-			System.out.println("plants.size(): " + plants.size());
+		//	System.out.println(i + "\t" + "plants.size(): " + plants.size());
 			for(int j = 0; j < (num_visits_a+num_visits_b); j++) 
 			{
 				if(mt.nextInt(2)+2 % 2 == 0)
@@ -42,31 +41,27 @@ public class Model {
 				else
 					bee_b.move(plants, (num_plants_1+num_plants_2));
 			}
-
 			
 			if(i % 100 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
 				{
 					plant_temp = plants.get(k);
+				//	plant_temp.PrintPlant();
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
 							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b));
 				}
 			}
-		
-			good_plants = new ArrayList<Integer>(0);
+				
 			good_plants_1 = new ArrayList<Integer>(0);
 			good_plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant>(0);
-			int num_plants = 0;
-			int other_num_plants_1 = num_plants_1;
-			int other_num_plants_2 = num_plants_2;
-			num_plants_1 = 0;
-			num_plants_2 = 0;
-					
-			for(int k = 0; k < (other_num_plants_1 + other_num_plants_2); k++)
+			int n1 = 0;
+			int n2 = 0;
+			
+			for(int k = 0; k < (num_plants_1 + num_plants_2); k++)
 			{ 
 				temp = plants.get(k);
 				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
@@ -74,15 +69,13 @@ public class Model {
 					if(temp.plant_type == 1)
 					{
 						good_plants_1.add(temp.id);
-						num_plants_1++;
+						n1++;
 					}
 					else if(temp.plant_type == 2)
 					{
 						good_plants_2.add(temp.id);
-						num_plants_2++;
+						n2++;
 					}
-					good_plants.add(temp.id);
-					num_plants++;
 				}
 			}
 			
@@ -90,54 +83,43 @@ public class Model {
 			int num_new_plants_1 = 0;
 			int num_new_plants_2 = 0;
 			
-			System.out.println(i + "\t" + num_plants + "\t" + num_plants_2 + "\t" + num_plants_2);
-		/*	
-			while(num_new_plants < 100) {
-				int rannum = mt.nextInt(num_plants);
-				int tempid = good_plants.get(rannum);
-			//	System.out.println(num_new_plants + "\t" + rannum + "\t" + tempid );
-				Plant temp = plants.get(tempid);
-			//	temp.PrintPlant();
-				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
-				good_plants.remove(rannum);
-				num_plants--;
-			//	new_plants.get(num_new_plants).PrintPlant();
-				num_new_plants++;
-				
-			}
-			*/
-			while(num_new_plants_1 < num_plants_1 & !good_plants_1.isEmpty()) 
+	//		int num_self_2 = 50 - num_new_plants_2;
+	//		int num_self_1 = 50 - num_new_plants_1;
+			
+		//	System.out.println(i  + "\t" + n1 + "\t" + n2);
+
+			while(num_new_plants_1 < num_plants_1 && !good_plants_1.isEmpty()) 
 			{
-				int rannum = mt.nextInt(num_plants_1);
+				int rannum = mt.nextInt(n1);
 				int tempid = good_plants_1.get(rannum);
 				temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_1.remove(rannum);
-				num_plants_1--;
+				n1--;
 				num_new_plants_1++;
 				num_new_plants++;
 			}
 			
-//			int num_self_1 = 50 - num_new_plants_1;
-	
-			while(num_new_plants_2 < num_plants_2  & !good_plants_2.isEmpty()) 
+		//	PrintPlants(new_plants, num_new_plants_1, 0);
+					
+			while(num_new_plants_2 < num_plants_2  && !good_plants_2.isEmpty()) 
 			{
-				int rannum = mt.nextInt(num_plants_2);
+				int rannum = mt.nextInt(n2);
 				int tempid = good_plants_2.get(rannum);
 				temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_2.remove(rannum);
-				num_plants_2--;
+				n2--;
 				num_new_plants_2++;
 				num_new_plants++;
 			}
-	
-//			int num_self_2 = 50 - num_new_plants_2;
 			
-		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2);
-			
+		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2 + "\t" + num_new_plants);
 			
 			this.plants = new_plants;
+			
+		//	PrintPlants(plants, num_new_plants_1, num_new_plants_2);
+			
 		}
 	}
 	
@@ -147,13 +129,19 @@ public class Model {
 		{
 			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
 		}
-		for(int i = 0; i < num_plants_2; i++) 
+		for(int i = num_plants_1; i < num_plants_1+num_plants_2; i++) 
 		{
 			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
 		}	
-		
-		System.out.println("plants.size(): " + plants.size());
+
+	}
+}
+/*	private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2)
+	{
+		int i;
+		for(i = 0;i< n1+n2;i++)
+			plantlist.get(i).PrintPlant();	
 	}
 	
-	
 }
+*/
