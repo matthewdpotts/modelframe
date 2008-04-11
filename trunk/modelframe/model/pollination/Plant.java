@@ -7,7 +7,7 @@ import model.util.MersenneTwisterFast;
 public class Plant {
 
 	public int id, plant_type; 
-	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains;
+	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains, initial_pollen_grains;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<Integer> pollen; 
 	private ArrayList<Integer> st_pollen;
@@ -25,6 +25,7 @@ public class Plant {
 		this.MAX_LOCI = 10;
 		this.num_flowers = num_flowers;
 		this.num_pollen_grains = num_pollen_grains;
+		this.initial_pollen_grains = num_pollen_grains;
 		this.num_st_pollen_grains = 0;
 		this.num_ovules = num_ovules;
 		pollen = new ArrayList<Integer>(0);
@@ -38,6 +39,7 @@ public class Plant {
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
 		grain_id = giveStPollen();
 		Plant planto = plant.get(this.id);
+	//	System.out.println(grain_id);
 		Plant plantp = plant.get(grain_id);
 		new_ovule = makeOvule(planto);
 		new_pollen = makePollen(plantp);
@@ -49,7 +51,7 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, this.num_ovules, this.num_flowers, this.num_pollen_grains );
+		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains );
 	}
 	
 	public Plant self(ArrayList<Plant> plant, int pnum) {
@@ -68,7 +70,7 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, this.num_ovules, this.num_flowers, this.num_pollen_grains );
+		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, num_ovules, num_flowers, num_pollen_grains );
 	}
 	
 	

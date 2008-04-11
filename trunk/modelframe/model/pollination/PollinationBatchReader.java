@@ -29,6 +29,7 @@ public class PollinationBatchReader implements BatchReader {
 		}
 		
 		line = buff.readLine();
+		line = buff.readLine();
 		while ( line != null ) {
 			if (!line.startsWith(new String("#")))
 			{
@@ -36,30 +37,36 @@ public class PollinationBatchReader implements BatchReader {
 				String temp_filename = null;
 				int temp_steps = 0;
 				int temp_plants = 0;
-			
-				if (strtok.hasMoreTokens())
-					temp_filename = strtok.nextToken();
-				else
-				{
-					System.out.println("ERROR: could not get filename in line: " + line);
-					return;
-				}
-				if (strtok.hasMoreTokens())
-					temp_steps = Integer.valueOf(strtok.nextToken()).intValue();
-				else
-				{
-					System.out.println("ERROR: could not get number of steps in line: " + line);
-					return;
-				}
-				if (strtok.hasMoreTokens())
-					temp_plants = Integer.valueOf(strtok.nextToken()).intValue();
-				else
-				{
-					System.out.println("ERROR: could not get number of plants in line: " + line);
-					return;
-				}
-			
-				commands.add(new RunParamObj(temp_filename, temp_steps, temp_plants));
+				int temp_num_plants_1 = 0;
+				int temp_num_plants_2 = 0;
+				int temp_num_visits_a = 0;
+				int temp_num_visits_b = 0;
+				int temp_num_ovules_1 = 0;
+				int temp_num_ovules_2 = 0;
+				int temp_num_flowers_1 = 0;
+				int temp_num_flowers_2 = 0;
+				int temp_num_pollen_grain_1 = 0; 
+				int temp_num_pollen_grain_2 = 0;
+				double temp_pollen_loss_rate_a = 0;
+				double temp_pollen_loss_rate_b = 0;
+		
+				temp_filename = strtok.nextToken();
+				temp_steps = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_plants = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_plants_1 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_plants_2 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_visits_a = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_visits_b = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_ovules_1 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_ovules_2 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_flowers_1 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_flowers_2 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_pollen_grain_1 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_num_pollen_grain_2 = Integer.valueOf(strtok.nextToken()).intValue();
+				temp_pollen_loss_rate_a = Double.valueOf(strtok.nextToken()).doubleValue();
+				temp_pollen_loss_rate_b = Double.valueOf(strtok.nextToken()).doubleValue();
+				
+				commands.add(new RunParamObj(temp_filename, temp_steps,temp_plants, temp_num_plants_1, temp_num_plants_2, temp_num_visits_a, temp_num_visits_b, temp_num_ovules_1, temp_num_ovules_2,temp_num_flowers_1,temp_num_flowers_2, temp_num_pollen_grain_1, temp_num_pollen_grain_2,temp_pollen_loss_rate_a, temp_pollen_loss_rate_b ));
 			}
 			line = buff.readLine();
 		}
@@ -70,11 +77,29 @@ public class PollinationBatchReader implements BatchReader {
 		for ( int i = 0; i < commands.size(); i++ ) {
 			RunParamObj temp = commands.get(i);
 			try {
-				test = new Model (temp.get_filename(), temp.get_num_plants());
-			} catch (FileNotFoundException e) {
+				test = new Model (temp.get_filename(), 
+						temp.get_num_steps(), 
+						temp.get_num_plants(),
+						temp.get_num_plants_1(),
+						temp.get_num_plants_2(), 
+						temp.get_num_visits_a(), 
+						temp.get_num_visits_b(), 
+						temp.get_num_ovules_1(), 
+						temp.get_num_ovules_2(), 
+						temp.get_num_flowers_1(), 
+						temp.get_num_flowers_2(), 
+						temp.get_num_pollen_grain_1(), 
+						temp.get_num_pollen_grain_2(),
+						temp.get_pollen_loss_rate_a(), 
+						temp.get_pollen_loss_rate_b());
+				} 
+			catch (FileNotFoundException e) 
+			{
 				e.printStackTrace();
 			}
+			
+			System.out.println(temp.get_filename() +"\t"+ temp.get_num_steps()+"\t"+ temp.get_num_plants()+"\t"+temp.get_num_plants_1()+"\t"+ temp.get_num_plants_2()+"\t"+temp.get_num_visits_a()+"\t"+temp.get_num_visits_b()+"\t"+temp.get_num_ovules_1()+"\t"+temp.get_num_ovules_2()+"\t"+temp.get_num_flowers_1()+"\t"+temp.get_num_flowers_2()+"\t"+temp.get_num_pollen_grain_1()+"\t"+ temp.get_num_pollen_grain_2()+"\t"+temp.get_pollen_loss_rate_a()+"\t"+temp.get_pollen_loss_rate_b());
+			test.run(temp.get_num_steps(), temp.get_num_plants_1(), temp.get_num_plants_2(),temp.get_num_visits_a(), temp.get_num_visits_b());	
 		}
 	}
-
 }
