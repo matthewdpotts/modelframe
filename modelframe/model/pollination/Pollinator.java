@@ -10,12 +10,12 @@ public class Pollinator {
 	private ArrayList<Integer> pollen;
 	private int num_grains;
 	private boolean first_visit;
-	public int type, xdim, ydim; 
+	public int type_pollinator, xdim, ydim; 
 	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup;
 	
 	
 	public Pollinator(int type, double pollen_loss_rate) {
-		this.type = type;
+		this.type_pollinator = type;
 		this.pollen_loss_rate = pollen_loss_rate;
 		first_visit = true;
 		num_grains = 0;
@@ -43,10 +43,10 @@ public class Pollinator {
 	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant visit) {
 		double rannum = mt.nextDouble();
-		if(type == 1 && ((double) visit.attract_a)*0.1 > rannum) {
+		if(type_pollinator == 1 && ((double) visit.attract_a)*0.1 > rannum) {
 			return true;
 		}
-		else if(type == 2 && ((double) visit.attract_b)*0.1  > rannum) {
+		else if(type_pollinator  == 2 && ((double) visit.attract_b)*0.1  > rannum) {
 			return true;
 		}
 		return false;
@@ -64,7 +64,7 @@ public class Pollinator {
 		{
 			return;
 		}
-		else if(type == 1) {
+		else if(type_pollinator  == 1) {
 			for(int i = 0; i <  sum_a && !pollen.isEmpty(); i++) {
 				if(pollen.isEmpty())
 						first_visit = true;
@@ -72,10 +72,10 @@ public class Pollinator {
 				grain = pollen.get(rannum);
 				pollen.remove(rannum);
 				num_grains--;
-				visit.receivePollen(grain, type);
+				visit.receivePollen(grain);
 			}
 		}
-		else if(type == 2) {
+		else if(type_pollinator  == 2) {
 			for(int i = 0; i < sum_b && !pollen.isEmpty(); i++) {
 				if(pollen.isEmpty())
 					first_visit = true;
@@ -83,7 +83,7 @@ public class Pollinator {
 			grain = pollen.get(rannum);
 			pollen.remove(rannum);
 			num_grains--;
-			visit.receivePollen(grain, type);
+			visit.receivePollen(grain);
 			}
 		}
 }
@@ -93,14 +93,14 @@ public class Pollinator {
 		int sum_b = visit.fit_b;
 		int grain;
 		
-		if(type == 1) {
+		if(type_pollinator == 1) {
 			for(int i = 0; i <  sum_a*10 && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
 				pollen.add(grain);
 				num_grains++;
 			}
 		}
-		else if(type == 2) {
+		else if(type_pollinator == 2) {
 			for(int i = 0; i < sum_b*10 && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
 				pollen.add(grain);

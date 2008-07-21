@@ -95,17 +95,26 @@ public class Plant {
 			temp = st_pollen.get(rannum);
 			st_pollen.remove(rannum);
 			this.num_st_pollen_grains--;
-			return temp;
+			if(this.plant_type == 1)
+				return temp/7907;
+			else if (this.plant_type == 2)
+				return temp/7919;
 		}
 			return -1;
 	}
 	
-	public void receivePollen(int temp, int pollen_plant_type) 
+	public void receivePollen(int temp) 
 	{
-		if(pollen_plant_type == this.plant_type)
+		if(temp % 7907 == 0 && this.plant_type == 1)
 		{
 			st_pollen.add(temp);
 			this.num_st_pollen_grains++;
+		}
+		else if(temp % 7919 == 0 && this.plant_type == 2)
+		{
+			st_pollen.add(temp);
+			this.num_st_pollen_grains++;
+			
 		}
 	};
 	
@@ -164,8 +173,15 @@ public class Plant {
 	{
 		for(int i = 0; i < num_pollen_grains; i++) 
 		{
-			pollen.add(this.id);
+			if(this.plant_type == 1)
+			{
+				pollen.add(this.id * 7907);
+			}
+			else if (this.plant_type == 2)
+			{
+				pollen.add(this.id*7919);
+			}
 		}
-	}
+		}
 }
 

@@ -2,6 +2,7 @@ package model.pollination;
 
 public class RunParamObj {
 
+	private int num_boots;
 	private int num_steps;
 	private int num_plants;
 	private int num_plants_1;
@@ -19,10 +20,13 @@ public class RunParamObj {
 	
 	
 	private String filename;
+	private String masterfile;
 	
-	public RunParamObj ( String filename, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
+	public RunParamObj ( String masterfile, String filename, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
  {
+		this.masterfile = masterfile;
 		this.filename = filename;
+		this.num_boots = num_boots;
 		this.num_steps = num_steps;
 		this.num_plants = num_plants;
 		this.num_plants_1 = num_plants_1;
@@ -39,8 +43,16 @@ public class RunParamObj {
 		this.pollen_loss_rate_b = pollen_loss_rate_b;
 	}
 	
+	public String get_masterfile () {
+		return masterfile;
+	}
+	
 	public String get_filename () {
 		return filename;
+	}
+	
+	public int get_num_boots () {
+		return num_boots;
 	}
 	
 	public int get_num_steps () {
