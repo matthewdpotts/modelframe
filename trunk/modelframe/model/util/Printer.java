@@ -28,8 +28,8 @@ public class Printer {
 	 * @param header <code>String</code> object which defines the header for the output file
 	 * @throws FileNotFoundException
 	 */
-	public Printer(String file, String header) throws FileNotFoundException {
-		f_stream = new FileOutputStream(file, true);
+	public Printer(String file, String header, Boolean append) throws FileNotFoundException {
+		f_stream = new FileOutputStream(file, append);
 		p_writer = new PrintStream(f_stream);
 		this.header = header;
 	}
