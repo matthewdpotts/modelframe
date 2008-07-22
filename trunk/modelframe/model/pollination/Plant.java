@@ -179,7 +179,7 @@ public class Plant {
 			}
 			else if (this.plant_type == 2)
 			{
-				pollen.add(this.id*7919);
+				pollen.add(this.id * 7919);
 			}
 		}
 		}

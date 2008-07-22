@@ -46,7 +46,7 @@ public class Pollinator {
 		if(type_pollinator == 1 && ((double) visit.attract_a)*0.1 > rannum) {
 			return true;
 		}
-		else if(type_pollinator  == 2 && ((double) visit.attract_b)*0.1  > rannum) {
+		else if(type_pollinator == 2 && ((double) visit.attract_b)*0.1  > rannum) {
 			return true;
 		}
 		return false;
