@@ -20,20 +20,21 @@ public class Model {
 		plants = new ArrayList<Plant>(0);
 		bee_a = new Pollinator(1,pollen_loss_rate_a);
 		bee_b = new Pollinator(2,pollen_loss_rate_b);
-		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b");
-		output1 = new Printer(mfile, "");
+		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b", true);
+		output1 = new Printer(mfile, "", true);
 	//	output.printHeader();
 		outstring = outstring2;
 		initPlants(num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2);
 	}
 	
-	public void run( int num_boots, int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b) 
+	public void run( int num_boots, int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, double conv_tol) 
 	{
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants_1;
 		ArrayList<Integer> good_plants_2;
 		Plant plant_temp;
 		Plant temp;
+		int conv_i = steps;
 		
 		//for(int i = 0;i < 10; i++)
 			//System.out.println(i + "\t" + (mt.nextInt(2)+2 % 2) );
@@ -49,7 +50,7 @@ public class Model {
 					bee_b.move(plants, (num_plants_1+num_plants_2));
 			}
 			
-			if(i % 10 == 0) 
+			if(i % 100 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
 				{
@@ -126,9 +127,15 @@ public class Model {
 			plants = new_plants;
 			
 		//	PrintPlants(plants, num_new_plants_1, num_new_plants_2);
-			
+		
+			if(converge(plants, num_plants_1, num_plants_2, conv_tol))
+			{
+				conv_i = i;
+				break;
+			}
+		
 		}
-		PrintPlants(plants, num_plants_1, num_plants_2, outstring, output1, num_boots);
+		PrintPlants(plants, num_plants_1, num_plants_2, outstring, output1, num_boots, steps, conv_i);
 		
 		
 		
@@ -150,7 +157,7 @@ public class Model {
 
 
 
-private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2, String outstring, Printer output1, int num_boots)
+private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2, String outstring, Printer output1, int num_boots, int steps, int actsteps)
 	{
 		
 		double mp1fa = 0;
@@ -181,7 +188,43 @@ private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2, String outs
 			}
 		}
 		
-		output1.printData(outstring + "\t" + num_boots + "\t" + mp1fa/n1 + "\t" + mp1fb/n1 + "\t" + mp1Aa/n1 + "\t" + mp1Ab/n1 + "\t" + mp2fa/n2 + "\t" + mp2fb/n2 + "\t" + mp2Aa/n2 + "\t" + mp2Ab/n2);
+		output1.printData(outstring + "\t" + num_boots + "\t" + steps + "\t" + actsteps +  "\t" + mp1Aa/n1 + "\t" + mp2Aa/n2 + "\t" + mp1Ab/n1 + "\t" + mp2Ab/n2 + "\t" + mp1fa/n1 + "\t" + mp2fa/n2 + "\t" + mp1fb/n1 + "\t" + mp2fb/n2);
 	}
+
+
+
+
+private boolean converge(ArrayList<Plant> plantlist, int n1, int n2, double conv_tol)
+{
+	
+
+	double mp1Aa = 0;
+	double mp1Ab = 0;
+	double mp2Aa = 0;
+	double mp2Ab = 0;
+
+
+	for(int i = 0; i < n1+n2; i++) 
+	{
+		if(plantlist.get(i).plant_type == 1)
+		{
+			mp1Aa += plantlist.get(i).attract_a;
+			mp1Ab += plantlist.get(i).attract_b;
+		}
+		
+		if(plantlist.get(i).plant_type == 2)
+		{
+			mp2Aa += plantlist.get(i).attract_a;
+			mp2Ab += plantlist.get(i).attract_b;
+		}
+	}
+	
+	if((mp1Aa/n1 < conv_tol) && (mp2Aa/n2 < conv_tol) || (mp1Ab/n1 < conv_tol) && (mp2Ab/n2 < conv_tol))
+	{
+		return true;
+	}
+	
+	return false;
+}
 
 }

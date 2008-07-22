@@ -17,12 +17,13 @@ public class RunParamObj {
 	private int num_pollen_grain_2;
 	private double pollen_loss_rate_a;
 	private double pollen_loss_rate_b;
+	private double convergence_tolerance;
 	
 	
 	private String filename;
 	private String masterfile;
 	
-	public RunParamObj ( String masterfile, String filename, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
+	public RunParamObj ( String masterfile, String filename, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol)
  {
 		this.masterfile = masterfile;
 		this.filename = filename;
@@ -41,6 +42,7 @@ public class RunParamObj {
 		this.num_pollen_grain_2 = num_pollen_grain_2;
 		this.pollen_loss_rate_a = pollen_loss_rate_a;
 		this.pollen_loss_rate_b = pollen_loss_rate_b;
+		this.convergence_tolerance = conv_tol;
 	}
 	
 	public String get_masterfile () {
@@ -109,6 +111,9 @@ public class RunParamObj {
 	
 	public double get_pollen_loss_rate_b () {
 		return pollen_loss_rate_b;
+	}
+	public double get_conv_tol() {
+		return convergence_tolerance;
 	}
 	
 }
