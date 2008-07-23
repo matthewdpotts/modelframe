@@ -91,8 +91,10 @@ public class Model {
 			int num_new_plants_1 = 0;
 			int num_new_plants_2 = 0;
 			
-	//		int num_self_2 = 50 - num_new_plants_2;
-	//		int num_self_1 = 50 - num_new_plants_1;
+			int num_self_1 = num_plants_1 - n1;
+			int num_self_2 = num_plants_2 - n2;
+			
+		//	System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + num_self_1 + "\t" + num_self_2);
 			
 		//	System.out.println(i  + "\t" + n1 + "\t" + n2);
 
@@ -100,10 +102,19 @@ public class Model {
 			{
 				int rannum = mt.nextInt(n1);
 				int tempid = good_plants_1.get(rannum);
-				temp = plants.get(tempid);
+			//	temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_1.remove(rannum);
 				n1--;
+				num_new_plants_1++;
+				num_new_plants++;
+			}
+		
+			for(int iii = 0; iii < num_self_1;iii++)
+			{
+				int rannum = mt.nextInt(num_plants_1);
+			//	temp = plants.get(rannum);
+				new_plants.add(plants.get(rannum).self(plants, num_new_plants));
 				num_new_plants_1++;
 				num_new_plants++;
 			}
@@ -114,13 +125,23 @@ public class Model {
 			{
 				int rannum = mt.nextInt(n2);
 				int tempid = good_plants_2.get(rannum);
-				temp = plants.get(tempid);
+			//	temp = plants.get(tempid);
 				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				good_plants_2.remove(rannum);
 				n2--;
 				num_new_plants_2++;
 				num_new_plants++;
 			}
+			
+			for(int iii = 0; iii < num_self_2;iii++)
+			{
+				int rannum = mt.nextInt(num_plants_2) + num_plants_1;
+			//	temp = plants.get(rannum);
+				new_plants.add(plants.get(rannum).self(plants, num_new_plants));
+				num_new_plants_2++;
+				num_new_plants++;
+			}
+			
 			
 		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2 + "\t" + num_new_plants);
 			

@@ -70,7 +70,7 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, plant_type, num_ovules, num_flowers, num_pollen_grains );
+		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains );
 	}
 	
 	
