@@ -1,0 +1,30 @@
+# File: Makefile-pollination
+# Description: Makefile for building Nate Muchhala's pollination model.
+# Author: Zac Brown
+# Date: 07.24.08
+
+TOPDIR = $(CURDIR)/modelframe
+
+POLLINATOR_MANIFEST		=	$(TOPDIR)/model/pollination/MANIFEST.MF
+
+POLLINATOR_CLASS_FILES 	=	$(TOPDIR)/model/pollination/*.class \
+							$(TOPDIR)/model/util/MersenneTwisterFast.class \
+							$(TOPDIR)/model/util/Printer.class \
+							$(TOPDIR)/model/BatchReader.class
+
+POLLINATOR_FILES = 	$(TOPDIR)/model/pollination/*.java \
+					$(TOPDIR)/model/util/MersenneTwisterFast.java \
+					$(TOPDIR)/model/util/Printer.java \
+					$(TOPDIR)/model/BatchReader.java
+
+all: pollination-jar
+
+pollination-jar: pollination $(POLLINATOR_MANIFEST)
+	jar cvf pollinator-`date +%F`.jar -m $(POLLINATOR_MANIFEST) \
+		-C $(TOPDIR)/ model/pollination/ \
+		-C $(TOPDIR)/ model/BatchReader.class \
+		-C $(TOPDIR)/ model/util/MersenneTwisterFast.class \
+		-C $(TOPDIR)/ model/util/Printer.class
+
+pollination: $(POLLINATOR_FILES)
+	javac $(POLLINATOR_FILES)
