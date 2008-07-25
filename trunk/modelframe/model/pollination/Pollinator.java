@@ -8,15 +8,17 @@ public class Pollinator {
 
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<Integer> pollen;
-	private int num_grains;
+	private int num_grains ;
 	private boolean first_visit;
-	public int type_pollinator, xdim, ydim; 
+	public int type_pollinator, xdim, ydim, id, num_visits; 
 	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup;
 	
 	
-	public Pollinator(int type, double pollen_loss_rate) {
+	public Pollinator(int id, int type, double pollen_loss_rate, int nv) {
 		this.type_pollinator = type;
 		this.pollen_loss_rate = pollen_loss_rate;
+		this.num_visits = nv;
+		this.id = id;
 		first_visit = true;
 		num_grains = 0;
 		pollen = new  ArrayList<Integer>(0);
@@ -31,6 +33,7 @@ public class Pollinator {
 		{
 			depositPollen(visit);
 			receivePollen(visit);
+			this.num_visits--;
 	//		visit.PrintPlant();
 		}
 		else 

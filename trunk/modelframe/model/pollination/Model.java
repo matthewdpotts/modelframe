@@ -10,24 +10,22 @@ public class Model {
 
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<Plant> plants;
-	private Pollinator bee_a, bee_b;
+	private ArrayList<Pollinator> bees;
 	private Printer output;
 	private Printer output1;
 	private String outstring;
 	
-	public Model(String mfile, String file, String outstring2,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
+	public Model(String mfile, String file, String outstring2,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b,  int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
  throws FileNotFoundException {
 		plants = new ArrayList<Plant>(0);
-		bee_a = new Pollinator(1,pollen_loss_rate_a);
-		bee_b = new Pollinator(2,pollen_loss_rate_b);
+		bees = new ArrayList<Pollinator>(0);
 		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b", true);
 		output1 = new Printer(mfile, "", true);
-	//	output.printHeader();
 		outstring = outstring2;
 		initPlants(num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2);
-	}
+		}
 	
-	public void run( int num_boots, int steps, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, double conv_tol) 
+	public void run(int num_boots, int steps, int num_plants_1, int num_plants_2, int num_polliantor_a, int num_polliantor_b, int num_visits_a, int num_visits_b, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol) 
 	{
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants_1;
@@ -35,21 +33,27 @@ public class Model {
 		Plant plant_temp;
 		Plant temp;
 		int conv_i = steps;
+		int num_plants = num_plants_1+num_plants_2;
 		
-		//for(int i = 0;i < 10; i++)
-			//System.out.println(i + "\t" + (mt.nextInt(2)+2 % 2) );
 		
 		for(int i = 0; i < steps; i++) 
 		{
-		//	System.out.println(i + "\t" + "plants.size(): " + plants.size());
-			for(int j = 0; j < (num_visits_a+num_visits_b); j++) 
-			{
-				if((mt.nextInt(2)+2 % 2) == 0)
-					bee_a.move(plants, (num_plants_1+num_plants_2));
-				else
-					bee_b.move(plants, (num_plants_1+num_plants_2));
-			}
+		
+		initBees(num_polliantor_a,num_polliantor_b,num_visits_a, num_visits_b, pollen_loss_rate_a, pollen_loss_rate_b);	
+
+		int num_pollinators = num_polliantor_a + num_polliantor_b;
 			
+			while(!bees.isEmpty())
+			{
+				int rannum = mt.nextInt(num_pollinators);
+				bees.get(rannum).move(plants, num_plants);
+				if(bees.get(rannum).num_visits == 0)
+					{
+						bees.remove(rannum);
+						num_pollinators--;
+						}
+			}
+		
 			if(i % 100 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
@@ -177,9 +181,21 @@ public class Model {
 	//	System.out.println("Intialized");
 	}
 
+	private void initBees( int npa, int npb, int nva, int nvb, double pla, double plb)	
+	{
+		for(int i = 0; i < npa; i++) 
+		{
+			bees.add(new Pollinator(i,1, pla, nva));
+		}
+		for(int i = npa; i < npa+npb; i++) 
+		{
+			bees.add(new Pollinator(i,2, plb, nvb));
+		}	
+	}
+	
+	
 
-
-private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2, String outstring, Printer output1, int num_boots, int steps, int actsteps)
+	private void PrintPlants(ArrayList<Plant> plantlist, int n1, int n2, String outstring, Printer output1, int num_boots, int steps, int actsteps)
 	{
 		
 		double mp1fa = 0;
