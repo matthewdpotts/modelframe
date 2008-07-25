@@ -54,8 +54,11 @@ public class Pollinator {
 
 	/** Take a look here to make sure pollen depositing is going as expected. **/
 	private void depositPollen(Plant visit) {
-		int sum_a = visit.fit_a;
-		int sum_b = visit.fit_b;
+		//int sum_a = visit.fit_a;
+		//int sum_b = visit.fit_b;
+		int sum_a = 5;
+		int sum_b = 5;
+		
 		int rannum;
 		int grain;
 		
@@ -89,8 +92,11 @@ public class Pollinator {
 }
 	
 	private void receivePollen(Plant visit) {
-		int sum_a = visit.fit_a;
-		int sum_b = visit.fit_b;
+
+		//int sum_a = visit.fit_a;
+		//int sum_b = visit.fit_b;
+		int sum_a = 5;
+		int sum_b = 5;
 		int grain;
 		
 		if(type_pollinator == 1) {

@@ -90,7 +90,7 @@ public class PollinationBatchReader implements BatchReader {
 		for ( int i = 0; i < commands.size(); i++ ) {
 			RunParamObj temp = commands.get(i);
 			try {
-				outfile = new Printer(temp.get_filename(),"bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b", false);
+				outfile = new Printer(temp.get_filename(),"bootn\ttime\tpid\tptype\tnum_pollen\tnum_st_pollen\tfit_a\tfit_b\tattract_a\tattract_b", false);
 				outfile.printHeader();
 				outstring = String.valueOf(temp.get_num_plants()) +"\t" + String.valueOf(temp.get_num_plants_1()) +"\t" + 
 				String.valueOf(temp.get_num_plants_2()) +"\t"  + String.valueOf(temp.get_num_visits_a()) + "\t"  + 
