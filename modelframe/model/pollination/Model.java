@@ -58,9 +58,10 @@ public class Model {
 				//	plant_temp.PrintPlant();
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(num_boots) + "\t" + Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
-							+ "\t" + Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
+							+ "\t" + Integer.toString(plant_temp.num_pollen_grains) + "\t" + Integer.toString(plant_temp.num_st_pollen_grains) + "\t" + Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
 							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b));
 				}
+
 			}
 				
 			good_plants_1 = new ArrayList<Integer>(0);
