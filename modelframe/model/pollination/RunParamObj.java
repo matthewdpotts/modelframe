@@ -7,6 +7,8 @@ public class RunParamObj {
 	private int num_plants;
 	private int num_plants_1;
 	private int num_plants_2;
+	private int num_pollinator_a;
+	private int num_pollinator_b;
 	private int num_visits_a;
 	private int num_visits_b;
 	private int num_ovules_1;
@@ -23,7 +25,7 @@ public class RunParamObj {
 	private String filename;
 	private String masterfile;
 	
-	public RunParamObj ( String masterfile, String filename, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol)
+	public RunParamObj ( String masterfile, String filename, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol)
  {
 		this.masterfile = masterfile;
 		this.filename = filename;
@@ -32,6 +34,8 @@ public class RunParamObj {
 		this.num_plants = num_plants;
 		this.num_plants_1 = num_plants_1;
 		this.num_plants_2 = num_plants_2;
+		this.num_pollinator_a = num_pollinator_a;
+		this.num_pollinator_b = num_pollinator_b;
 		this.num_visits_a = num_visits_a;
 		this.num_visits_b = num_visits_b;
 		this.num_ovules_1 = num_ovules_1;
@@ -67,6 +71,14 @@ public class RunParamObj {
 	
 	public int get_num_plants_1 () {
 		return num_plants_1;
+	}
+	
+	public int get_num_pollinator_a () {
+		return num_pollinator_a;
+	}
+	
+	public int get_num_pollinator_b () {
+		return num_pollinator_b;
 	}
 	
 	public int get_num_plants_2 () {
