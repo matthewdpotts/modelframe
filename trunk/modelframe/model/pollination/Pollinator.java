@@ -7,7 +7,7 @@ import model.util.MersenneTwisterFast;
 public class Pollinator {
 
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
-	private ArrayList<Integer> pollen;
+	private ArrayList<PollenGrain> pollen;
 	private int num_grains ;
 	private boolean first_visit;
 	public int type_pollinator, xdim, ydim, id, num_visits; 
@@ -21,7 +21,7 @@ public class Pollinator {
 		this.id = id;
 		first_visit = true;
 		num_grains = 0;
-		pollen = new  ArrayList<Integer>(0);
+		pollen = new  ArrayList<PollenGrain>(0);
 	}
 	
 	public void move(ArrayList<Plant> plants, int num_plants) {
@@ -31,8 +31,8 @@ public class Pollinator {
 		boolean visited = visit_plant(visit);
 		if(visited) 
 		{
-			depositPollen(visit);
-			receivePollen(visit);
+			depositPollen(visit, plants);
+			receivePollen(visit, plants);
 			this.num_visits--;
 	//		visit.PrintPlant();
 		}
@@ -40,7 +40,7 @@ public class Pollinator {
 		{
 			move(plants, num_plants);
 		}
-		losePollen();
+		losePollen(plants);
 	}
 	
 	/** Check here to ensure visiting is working as desired **/
@@ -56,22 +56,25 @@ public class Pollinator {
 	}
 
 	/** Take a look here to make sure pollen depositing is going as expected. **/
-	private void depositPollen(Plant visit) {
+	private void depositPollen(Plant visit, ArrayList<Plant> plants) 
+	{
 		//int sum_a = visit.fit_a;
 		//int sum_b = visit.fit_b;
 		int sum_a = 5;
 		int sum_b = 5;
 		
 		int rannum;
-		int grain;
+		PollenGrain grain;
 		
 		
 		if(first_visit == true) 
 		{
 			return;
 		}
-		else if(type_pollinator  == 1) {
-			for(int i = 0; i <  sum_a && !pollen.isEmpty(); i++) {
+		else if(type_pollinator  == 1) 
+		{
+			for(int i = 0; i <  sum_a && !pollen.isEmpty(); i++) 
+			{
 				if(pollen.isEmpty())
 						first_visit = true;
 				rannum = mt.nextInt(num_grains);
@@ -79,10 +82,22 @@ public class Pollinator {
 				pollen.remove(rannum);
 				num_grains--;
 				visit.receivePollen(grain);
+				if(grain.plant_type == visit.plant_type)
+				{
+					plants.get(grain.plant_id).num_pollen_right++;
+					plants.get(grain.plant_id).num_pollen_on_pollinator--;
+				}
+				else
+				{
+					plants.get(grain.plant_id).num_pollen_wrong++;
+					plants.get(grain.plant_id).num_pollen_on_pollinator--;
+				}
 			}
 		}
-		else if(type_pollinator  == 2) {
-			for(int i = 0; i < sum_b && !pollen.isEmpty(); i++) {
+		else if(type_pollinator  == 2) 
+		{
+			for(int i = 0; i < sum_b && !pollen.isEmpty(); i++) 
+			{
 				if(pollen.isEmpty())
 					first_visit = true;
 			rannum = mt.nextInt(num_grains);
@@ -90,21 +105,33 @@ public class Pollinator {
 			pollen.remove(rannum);
 			num_grains--;
 			visit.receivePollen(grain);
+			if(grain.plant_type == visit.plant_type)
+			{
+				plants.get(grain.plant_id).num_pollen_right++;
+				plants.get(grain.plant_id).num_pollen_on_pollinator--;
+			}
+			else
+			{
+				plants.get(grain.plant_id).num_pollen_wrong++;
+				plants.get(grain.plant_id).num_pollen_on_pollinator--;
+			}
 			}
 		}
-}
+	}
+
 	
-	private void receivePollen(Plant visit) {
+	private void receivePollen(Plant visit, ArrayList<Plant> plants) {
 
 		//int sum_a = visit.fit_a;
 		//int sum_b = visit.fit_b;
 		int sum_a = 5;
 		int sum_b = 5;
-		int grain;
+		PollenGrain grain;
 		
 		if(type_pollinator == 1) {
 			for(int i = 0; i <  sum_a*10 && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
+				plants.get(grain.plant_id).num_pollen_on_pollinator++;
 				pollen.add(grain);
 				num_grains++;
 			}
@@ -112,6 +139,7 @@ public class Pollinator {
 		else if(type_pollinator == 2) {
 			for(int i = 0; i < sum_b*10 && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
+				plants.get(grain.plant_id).num_pollen_on_pollinator++;
 				pollen.add(grain);
 				num_grains++;
 			}
@@ -122,15 +150,19 @@ public class Pollinator {
 }
 	
 	
-	private void losePollen()
+	private void losePollen(ArrayList<Plant> plants)
 	{
 		int rannum;
+		PollenGrain tempgrain;
 		if(num_grains > 0) 
 		{
 			int num_lose = (int)((double)num_grains * pollen_loss_rate);
 			for(int i = 0; i < num_lose && !pollen.isEmpty(); i++) 
 			{
 				rannum = mt.nextInt(num_grains);
+				tempgrain = pollen.get(rannum);
+				plants.get(tempgrain.plant_id).num_pollen_lost++;
+				plants.get(tempgrain.plant_id).num_pollen_on_pollinator--;
 				pollen.remove(rannum);
 				num_grains--;
 			}
