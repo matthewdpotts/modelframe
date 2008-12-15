@@ -7,10 +7,10 @@ import model.util.MersenneTwisterFast;
 public class Plant {
 
 	public int id, plant_type; 
-	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains, initial_pollen_grains;
+	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains, initial_pollen_grains, num_pollen_lost, num_pollen_on_pollinator, num_pollen_right, num_pollen_wrong;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
-	private ArrayList<Integer> pollen; 
-	private ArrayList<Integer> st_pollen;
+	private ArrayList<PollenGrain> pollen; 
+	private ArrayList<PollenGrain> st_pollen;
 	public int num_flowers;
 	public int num_ovules;
 
@@ -27,17 +27,21 @@ public class Plant {
 		this.num_pollen_grains = num_pollen_grains;
 		this.initial_pollen_grains = num_pollen_grains;
 		this.num_st_pollen_grains = 0;
+		this.num_pollen_lost = 0;
+		this.num_pollen_wrong = 0;
+		this.num_pollen_right = 0;
+		this.num_pollen_on_pollinator = 0;
 		this.num_ovules = num_ovules;
-		pollen = new ArrayList<Integer>(0);
+		pollen = new ArrayList<PollenGrain>(0);
 		initPollen();
-		st_pollen = new ArrayList<Integer> (0);
+		st_pollen = new ArrayList<PollenGrain> (0);
 	}
 	
 	public Plant reproduce(ArrayList<Plant> plant, int pnum) {
 		Ovule new_ovule;
 		Pollen new_pollen;
 		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
-		grain_id = giveStPollen();
+		grain_id = giveStPollen().plant_id;
 		Plant planto = plant.get(this.id);
 	//	System.out.println(grain_id);
 		Plant plantp = plant.get(grain_id);
@@ -74,8 +78,8 @@ public class Plant {
 	}
 	
 	
-	public int givePollen() {
-		int temp = 0;
+	public PollenGrain givePollen() {
+		PollenGrain temp;
 		if(this.num_pollen_grains != 0)
 		{
 			int rannum = mt.nextInt(this.num_pollen_grains);
@@ -84,38 +88,35 @@ public class Plant {
 			this.num_pollen_grains--;
 			return temp;
 		}
-			return -1;
+			return new PollenGrain(-1,-1);
 	}
 	
-	public int giveStPollen() {
-		int temp = 0;
+	public PollenGrain giveStPollen() {
+		PollenGrain temp;
 		if(this.num_st_pollen_grains != 0)
 		{
 			int rannum = mt.nextInt(this.num_st_pollen_grains);
 			temp = st_pollen.get(rannum);
 			st_pollen.remove(rannum);
 			this.num_st_pollen_grains--;
-			if(this.plant_type == 1)
-				return temp/7907;
-			else if (this.plant_type == 2)
-				return temp/7919;
+			return temp;
 		}
-			return -1;
+		return new PollenGrain(-1,-1);
 	}
 	
-	public void receivePollen(int temp) 
+	public void receivePollen(PollenGrain tempgrain) 
 	{
-		if(temp % 7907 == 0 && this.plant_type == 1)
+		if( tempgrain.plant_type   ==  this.plant_type)
 		{
-			st_pollen.add(temp);
+			st_pollen.add(tempgrain);
 			this.num_st_pollen_grains++;
+		//	this.num_pollen_right++;
 		}
-		else if(temp % 7919 == 0 && this.plant_type == 2)
-		{
-			st_pollen.add(temp);
-			this.num_st_pollen_grains++;
-			
-		}
+	//	else
+	//	{
+		//	this.num_pollen_wrong++;
+	//	}
+
 	};
 	
 	public Ovule makeOvule(Plant plant)
@@ -163,8 +164,8 @@ public class Plant {
 	public void PrintPlant()
 	{
 					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
-						"\t"+ this.attract_a + "\t" +  this.attract_b + 
-							"\t" + this.fit_a + "\t" + this.fit_b);
+					"\t" + this.num_pollen_right + "\t" + this.num_pollen_wrong +"\t"+ this.num_pollen_lost +"\t"+
+					this.attract_a + "\t" +  this.attract_b + "\t" + this.fit_a + "\t" + this.fit_b);
 	}
 	
 
@@ -173,15 +174,8 @@ public class Plant {
 	{
 		for(int i = 0; i < num_pollen_grains; i++) 
 		{
-			if(this.plant_type == 1)
-			{
-				pollen.add(this.id * 7907);
-			}
-			else if (this.plant_type == 2)
-			{
-				pollen.add(this.id * 7919);
-			}
+			pollen.add(new PollenGrain(this.plant_type, this.id));
 		}
-		}
+	}
 }
 
