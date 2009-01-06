@@ -6,32 +6,48 @@ import model.util.MersenneTwisterFast;
 
 public class Plant {
 
-	public int id, plant_type; 
-	public int attract_a, attract_b, fit_a, fit_b, MAX_LOCI, num_pollen_grains, num_st_pollen_grains, initial_pollen_grains, num_pollen_lost, num_pollen_on_pollinator, num_pollen_right, num_pollen_wrong;
+	public int id, plant_type, poevolve; 
+	public int attract_a, attract_b, fit_a, fit_b, poratio, MAX_LOCI, PO_MAX_LOCI,  num_pollen_grains, num_st_pollen_grains, initial_pollen_grains, num_pollen_lost, num_pollen_on_pollinator, num_pollen_right, num_pollen_wrong;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<PollenGrain> pollen; 
 	private ArrayList<PollenGrain> st_pollen;
 	public int num_flowers;
 	public int num_ovules;
+	public double min_attract, max_attract, total_pollen, n;
 
 	
-	public Plant(int attract_a, int attract_b, int fit_a, int  fit_b, int id, int plant_type, int num_ovules, int num_flowers, int num_pollen_grains) {
+	public Plant(int poevolve, int attract_a, int attract_b, int fit_a, int  fit_b, int poratio, int id, int plant_type, int num_ovules, int num_flowers, int num_pollen_grains, double min_attract, double max_attract, double total_pollen, double n) {
 		this.id = id;
 		this.attract_a = attract_a;
 		this.attract_b = attract_b;
 		this.fit_a = fit_a;
 		this.fit_b = fit_b;
+		this.poratio = poratio;
 		this.plant_type = plant_type;
 		this.MAX_LOCI = 10;
+		this.PO_MAX_LOCI = 50;
 		this.num_flowers = num_flowers;
+		this.poevolve = poevolve;
+		this.num_ovules = num_ovules;
 		this.num_pollen_grains = num_pollen_grains;
+		this.n = n;
+		if(this.poevolve == 1)
+		{
+			this.num_pollen_grains = (int) (this.poratio * total_pollen)/this.PO_MAX_LOCI;
+			this.num_ovules = (int) ((total_pollen - this.num_pollen_grains)/n);
+			//System.out.println(this.poevolve + "\t" + this.id + "\t" + total_pollen + "\t" + this.poratio + "\t" + this.num_pollen_grains + "\t" + this.num_ovules + "\t" +  n);
+		}
+		
 		this.initial_pollen_grains = num_pollen_grains;
 		this.num_st_pollen_grains = 0;
 		this.num_pollen_lost = 0;
 		this.num_pollen_wrong = 0;
 		this.num_pollen_right = 0;
 		this.num_pollen_on_pollinator = 0;
-		this.num_ovules = num_ovules;
+
+		this.min_attract = min_attract;
+		this.max_attract = max_attract;
+		this.total_pollen = total_pollen;
 		pollen = new ArrayList<PollenGrain>(0);
 		initPollen();
 		st_pollen = new ArrayList<PollenGrain> (0);
@@ -40,7 +56,7 @@ public class Plant {
 	public Plant reproduce(ArrayList<Plant> plant, int pnum) {
 		Ovule new_ovule;
 		Pollen new_pollen;
-		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id;
+		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id, o_poratio, p_poratio;
 		grain_id = giveStPollen().plant_id;
 		Plant planto = plant.get(this.id);
 	//	System.out.println(grain_id);
@@ -55,13 +71,15 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains );
+		o_poratio = new_ovule.poratio;
+		p_poratio = new_pollen.poratio;
+		return new Plant(planto.poevolve, a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, o_poratio + p_poratio, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains, planto.min_attract, planto.max_attract, planto.total_pollen, planto.n );
 	}
 	
 	public Plant self(ArrayList<Plant> plant, int pnum) {
 		Ovule new_ovule;
 		Pollen new_pollen;
-		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b;
+		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, o_poratio, p_poratio;
 		Plant planto = plant.get(this.id);
 		Plant plantp = plant.get(this.id);
 		new_ovule = makeOvule(planto);
@@ -74,7 +92,9 @@ public class Plant {
 		f2sum_a = new_pollen.fit_a;
 		f1sum_b = new_ovule.fit_b;
 		f2sum_b = new_pollen.fit_b;
-		return new Plant(a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains );
+		o_poratio = new_ovule.poratio;
+		p_poratio = new_pollen.poratio;
+		return new Plant(planto.poevolve, a1sum_a + a2sum_a, a1sum_b+a2sum_b, f1sum_a+f2sum_a,f1sum_b+f2sum_b, o_poratio + p_poratio, pnum, planto.plant_type, planto.num_ovules, planto.num_flowers, planto.initial_pollen_grains, planto.min_attract, planto.max_attract, planto.total_pollen, planto.n);
 	}
 	
 	
@@ -125,7 +145,8 @@ public class Plant {
 		int hattract_b = makeHaploid(plant.attract_b, plant.MAX_LOCI);
 		int hfit_a = makeHaploid(plant.fit_a, plant.MAX_LOCI);
 		int hfit_b = makeHaploid(plant.fit_b, plant.MAX_LOCI);
-		return new Ovule(hattract_a, hattract_b, hfit_a, hfit_b);
+		int poratio = makeHaploid(plant.poratio, plant.PO_MAX_LOCI);
+		return new Ovule(hattract_a, hattract_b, hfit_a, hfit_b, poratio);
 	}
 	
 	public Pollen makePollen(Plant plant)
@@ -134,7 +155,8 @@ public class Plant {
 		int hattract_b = makeHaploid(plant.attract_b, plant.MAX_LOCI);
 		int hfit_a = makeHaploid(plant.fit_a, plant.MAX_LOCI);
 		int hfit_b = makeHaploid(plant.fit_b, plant.MAX_LOCI);
-		return new Pollen(hattract_a, hattract_b, hfit_a, hfit_b);
+		int poratio = makeHaploid(plant.poratio, plant.PO_MAX_LOCI);
+		return new Pollen(hattract_a, hattract_b, hfit_a, hfit_b, poratio);
 	}
 
 	
@@ -165,7 +187,7 @@ public class Plant {
 	{
 					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
 					"\t" + this.num_pollen_right + "\t" + this.num_pollen_wrong +"\t"+ this.num_pollen_lost +"\t"+
-					this.attract_a + "\t" +  this.attract_b + "\t" + this.fit_a + "\t" + this.fit_b);
+					this.attract_a + "\t" +  this.attract_b + "\t" + this.fit_a + "\t" + this.fit_b + "\t" + this.poratio);
 	}
 	
 

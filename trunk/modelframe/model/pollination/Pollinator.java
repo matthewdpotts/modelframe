@@ -46,10 +46,13 @@ public class Pollinator {
 	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant visit) {
 		double rannum = mt.nextDouble();
-		if(type_pollinator == 1 && ((double) visit.attract_a)*0.1 > rannum) {
+		double scaler = 10./(visit.max_attract - visit.min_attract);
+		//System.out.println(((double) (visit.attract_a/scaler) + visit.min_attract)*0.1);
+		
+		if(type_pollinator == 1 && ((double) (visit.attract_a/scaler) + visit.min_attract)*0.1 > rannum) {
 			return true;
 		}
-		else if(type_pollinator == 2 && ((double) visit.attract_b)*0.1  > rannum) {
+		else if(type_pollinator == 2 && ((double) (visit.attract_b/scaler) + visit.min_attract)*0.1  > rannum) {
 			return true;
 		}
 		return false;
