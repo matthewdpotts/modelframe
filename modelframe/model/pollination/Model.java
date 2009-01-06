@@ -15,19 +15,19 @@ public class Model {
 	private Printer output1;
 	private String outstring;
 	
-	public Model(String mfile, String file, String outstring2,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b,  int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b)
+	public Model(String mfile, String file, String outstring2, int poevolve,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b,  int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b,double conv_tol, double min_attract, double max_attract, double total_pollen, double n)
  throws FileNotFoundException {
 		plants = new ArrayList<Plant>(0);
 		bees = new ArrayList<Pollinator>(0);
-		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b", true);
+		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b\tporatio", true);
 		output1 = new Printer(mfile, "", true);
 		outstring = outstring2;
-		initPlants(num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2);
+		initPlants(poevolve, num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2, min_attract, max_attract, total_pollen, n);
 		}
 	
 
 	
-	public void run(int num_boots, int steps, int num_plants_1, int num_plants_2, int num_polliantor_a, int num_polliantor_b, int num_visits_a, int num_visits_b, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol) 
+	public void run(int poevolve, int num_boots, int steps, int num_plants_1, int num_plants_2, int num_polliantor_a, int num_polliantor_b, int num_visits_a, int num_visits_b, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol) 
 	{
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants_1;
@@ -63,12 +63,12 @@ public class Model {
 					plant_temp = plants.get(k);
 				//	plant_temp.PrintPlant();
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
-						output.printData(Integer.toString(num_boots) + "\t" + Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
+						output.printData(Integer.toString(poevolve) + "\t" + Integer.toString(num_boots) + "\t" + Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.num_pollen_grains) + "\t" + Integer.toString(plant_temp.num_st_pollen_grains) + 
 							"\t" + Integer.toString(plant_temp.num_pollen_right) + "\t" + Integer.toString(plant_temp.num_pollen_wrong) +"\t"+ Integer.toString(plant_temp.num_pollen_lost) + "\t"
 							+ Integer.toString(plant_temp.num_pollen_on_pollinator) +"\t"
 							+ Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
-							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b));
+							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b) + "\t" + Integer.toString(plant_temp.poratio));
 				}
 
 			}
@@ -173,15 +173,16 @@ public class Model {
 		
 	}
 	
-	private void initPlants(int num_plants_1, int num_plants_2, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2) 
+	private void initPlants(int poevolve, int num_plants_1, int num_plants_2, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double min_attract, double max_attract, double total_pollen, double n) 
 	{
+	//	System.out.println(poevolve);
 		for(int i = 0; i < num_plants_1; i++) 
 		{
-			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1));
+			plants.add(new Plant(poevolve, mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), mt.nextInt(51),  i, 1, num_ovules_1, num_flowers_1, num_pollen_grain_1, min_attract, max_attract, total_pollen, n));
 		}
 		for(int i = num_plants_1; i < num_plants_1+num_plants_2; i++) 
 		{
-			plants.add(new Plant(mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2));
+			plants.add(new Plant(poevolve, mt.nextInt(11), mt.nextInt(11), mt.nextInt(11),mt.nextInt(11), mt.nextInt(51), i, 2,  num_ovules_2, num_flowers_2, num_pollen_grain_2, min_attract, max_attract, total_pollen, n));
 		}	
 	//	System.out.println("Intialized");
 	}
@@ -211,6 +212,8 @@ public class Model {
 		double mp2Ab = 0;
 		double mp2fa = 0;
 		double mp2fb = 0;
+		double poratio1 = 0;
+		double poratio2 = 0;
 	
 		for(int i = 0; i < n1+n2; i++) 
 		{
@@ -220,6 +223,7 @@ public class Model {
 				mp1fb += plantlist.get(i).fit_b;
 				mp1Aa += plantlist.get(i).attract_a;
 				mp1Ab += plantlist.get(i).attract_b;
+				poratio1 += plantlist.get(i).poratio;
 			}
 			
 			if(plantlist.get(i).plant_type == 2)
@@ -228,10 +232,11 @@ public class Model {
 				mp2fb += plantlist.get(i).fit_b;
 				mp2Aa += plantlist.get(i).attract_a;
 				mp2Ab += plantlist.get(i).attract_b;
+				poratio2 += plantlist.get(i).poratio;
 			}
 		}
 		
-		output1.printData(outstring + "\t" + num_boots + "\t" + steps + "\t" + actsteps +  "\t" + mp1Aa/n1 + "\t" + mp2Aa/n2 + "\t" + mp1Ab/n1 + "\t" + mp2Ab/n2 + "\t" + mp1fa/n1 + "\t" + mp2fa/n2 + "\t" + mp1fb/n1 + "\t" + mp2fb/n2);
+		output1.printData(outstring + "\t" + num_boots + "\t" + steps + "\t" + actsteps +  "\t" + mp1Aa/n1 + "\t" + mp2Aa/n2 + "\t" + mp1Ab/n1 + "\t" + mp2Ab/n2 + "\t" + mp1fa/n1 + "\t" + mp2fa/n2 + "\t" + mp1fb/n1 + "\t" + mp2fb/n2 + "\t" + poratio1/n1 + "\t" + poratio2/n2);
 	}
 
 
