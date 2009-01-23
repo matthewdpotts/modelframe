@@ -32,6 +32,10 @@ public class Model {
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants_1;
 		ArrayList<Integer> good_plants_2;
+		ArrayList<Integer> self_plants_1;
+		ArrayList<Integer> self_plants_2;
+		
+		
 		Plant plant_temp;
 		Plant temp;
 		int conv_i = steps;
@@ -68,21 +72,27 @@ public class Model {
 							"\t" + Integer.toString(plant_temp.num_pollen_right) + "\t" + Integer.toString(plant_temp.num_pollen_wrong) +"\t"+ Integer.toString(plant_temp.num_pollen_lost) + "\t"
 							+ Integer.toString(plant_temp.num_pollen_on_pollinator) +"\t"
 							+ Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
-							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b) + "\t" + Integer.toString(plant_temp.poratio));
+							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b) + "\t" + Integer.toString(plant_temp.poratio)
+							+  "\t" + Integer.toString(plant_temp.num_ovules) + "\t" + Integer.toString(plant_temp.initial_pollen_grains)
+						);
 				}
 
 			}
 				
 			good_plants_1 = new ArrayList<Integer>(0);
 			good_plants_2 = new ArrayList<Integer>(0);
+			self_plants_1 = new ArrayList<Integer>(0);
+			self_plants_2 = new ArrayList<Integer>(0);
 			new_plants = new ArrayList<Plant>(0);
 			int n1 = 0;
 			int n2 = 0;
+			int sn1 = 0;
+			int sn2 = 0;
 			
 			for(int k = 0; k < (num_plants_1 + num_plants_2); k++)
 			{ 
 				temp = plants.get(k);
-				for(int j = 0; j < Math.min(3,temp.num_st_pollen_grains); j++)
+				for(int j = 0; j < Math.min(temp.num_ovules,temp.num_st_pollen_grains); j++)
 				{					
 					if(temp.plant_type == 1)
 					{
@@ -97,6 +107,23 @@ public class Model {
 				}
 			}
 			
+			for(int k = 0; k < (num_plants_1 + num_plants_2); k++)
+			{ 
+				temp = plants.get(k);				
+					if(temp.plant_type == 1 && temp.num_ovules > 0)
+					{
+						self_plants_1.add(temp.id);
+						sn1++;
+					}
+					else if(temp.plant_type == 2&& temp.num_ovules > 0)
+					{
+						self_plants_2.add(temp.id);
+						sn2++;
+					}
+			}
+			
+			
+			
 			int num_new_plants = 0;
 			int num_new_plants_1 = 0;
 			int num_new_plants_2 = 0;
@@ -104,7 +131,7 @@ public class Model {
 			int num_self_1 = num_plants_1 - n1;
 			int num_self_2 = num_plants_2 - n2;
 			
-		//	System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + num_self_1 + "\t" + num_self_2);
+	//		System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + num_self_1 + "\t" + num_self_2);
 			
 		//	System.out.println(i  + "\t" + n1 + "\t" + n2);
 
@@ -122,9 +149,9 @@ public class Model {
 		
 			for(int iii = 0; iii < num_self_1;iii++)
 			{
-				int rannum = mt.nextInt(num_plants_1);
-			//	temp = plants.get(rannum);
-				new_plants.add(plants.get(rannum).self(plants, num_new_plants));
+				int rannum = mt.nextInt(sn1);
+				int tempid = self_plants_1.get(rannum);
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				num_new_plants_1++;
 				num_new_plants++;
 			}
@@ -145,9 +172,9 @@ public class Model {
 			
 			for(int iii = 0; iii < num_self_2;iii++)
 			{
-				int rannum = mt.nextInt(num_plants_2) + num_plants_1;
-			//	temp = plants.get(rannum);
-				new_plants.add(plants.get(rannum).self(plants, num_new_plants));
+				int rannum = mt.nextInt(sn2);
+				int tempid = self_plants_2.get(rannum);
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
 				num_new_plants_2++;
 				num_new_plants++;
 			}
@@ -214,6 +241,11 @@ public class Model {
 		double mp2fb = 0;
 		double poratio1 = 0;
 		double poratio2 = 0;
+		double ove1 = 0;
+		double ove2 = 0;
+		double pg1 = 0;
+		double pg2 = 0;
+		
 	
 		for(int i = 0; i < n1+n2; i++) 
 		{
@@ -224,6 +256,8 @@ public class Model {
 				mp1Aa += plantlist.get(i).attract_a;
 				mp1Ab += plantlist.get(i).attract_b;
 				poratio1 += plantlist.get(i).poratio;
+				ove1 += plantlist.get(i).num_ovules;
+				pg1 += plantlist.get(i).initial_pollen_grains;
 			}
 			
 			if(plantlist.get(i).plant_type == 2)
@@ -233,10 +267,12 @@ public class Model {
 				mp2Aa += plantlist.get(i).attract_a;
 				mp2Ab += plantlist.get(i).attract_b;
 				poratio2 += plantlist.get(i).poratio;
+				ove2 += plantlist.get(i).num_ovules;
+				pg2 += plantlist.get(i).initial_pollen_grains;
 			}
 		}
 		
-		output1.printData(outstring + "\t" + num_boots + "\t" + steps + "\t" + actsteps +  "\t" + mp1Aa/n1 + "\t" + mp2Aa/n2 + "\t" + mp1Ab/n1 + "\t" + mp2Ab/n2 + "\t" + mp1fa/n1 + "\t" + mp2fa/n2 + "\t" + mp1fb/n1 + "\t" + mp2fb/n2 + "\t" + poratio1/n1 + "\t" + poratio2/n2);
+		output1.printData(outstring + "\t" + num_boots + "\t" + steps + "\t" + actsteps +  "\t" + mp1Aa/n1 + "\t" + mp2Aa/n2 + "\t" + mp1Ab/n1 + "\t" + mp2Ab/n2 + "\t" + mp1fa/n1 + "\t" + mp2fa/n2 + "\t" + mp1fb/n1 + "\t" + mp2fb/n2 + "\t" + poratio1/n1 + "\t" + poratio2/n2 + "\t" + ove1/n1 + "\t" + ove2/n2 + "\t" + pg1/n1 + "\t" + pg2/n2);
 	}
 
 
