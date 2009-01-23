@@ -38,7 +38,7 @@ public class Plant {
 			//System.out.println(this.poevolve + "\t" + this.id + "\t" + total_pollen + "\t" + this.poratio + "\t" + this.num_pollen_grains + "\t" + this.num_ovules + "\t" +  n);
 		}
 		
-		this.initial_pollen_grains = num_pollen_grains;
+		this.initial_pollen_grains = this.num_pollen_grains;
 		this.num_st_pollen_grains = 0;
 		this.num_pollen_lost = 0;
 		this.num_pollen_wrong = 0;

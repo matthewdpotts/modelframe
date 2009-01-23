@@ -33,7 +33,7 @@ public class PollinationBatchReader implements BatchReader {
 		String temp_filename1 = null;
 		Printer output;
 		temp_filename1 = strtok.nextToken();
-		output = new Printer(temp_filename1,"E\tnP\tnP1\tnP2\tnPa\tnPb\tnVa\tnVb\tnOv1\tnOv2\tnFl1\tnFl2\tnPo1\tnPo2\tlossa\tlossb\tconv_tol\tmin_A\tmax_A\ttotal_pollen\tn\tbn\tSteps\tASteps\tMP1Aa\tMP2Aa\tMP1Ab\tMP2Ab\tMP1Fa\tMP2Fa\tMP1Fb\tMP2Fb\tporatio1\tpotratio2", false);
+		output = new Printer(temp_filename1,"E\tnP\tnP1\tnP2\tnPa\tnPb\tnVa\tnVb\tnOv1\tnOv2\tnFl1\tnFl2\tnPo1\tnPo2\tlossa\tlossb\tconv_tol\tmin_A\tmax_A\ttotal_pollen\tn\tbn\tSteps\tASteps\tMP1Aa\tMP2Aa\tMP1Ab\tMP2Ab\tMP1Fa\tMP2Fa\tMP1Fb\tMP2Fb\tratio1\tratio2\tave_ove1\tave_ove2\tave_pg1\tave_pg2", false);
 		output.printHeader();
 		line = buff.readLine();
 		line = buff.readLine();
@@ -105,7 +105,7 @@ public class PollinationBatchReader implements BatchReader {
 		for ( int i = 0; i < commands.size(); i++ ) {
 			RunParamObj temp = commands.get(i);
 			try {
-				outfile = new Printer(temp.get_filename(),"E\tbootn\ttime\tpid\tptype\tnum_pollen\tnum_st_pollen\tnum_pollen_right\tnum_pollen_wrong\tnum_pollen_lost\tnum_pollen_on_pollinator\tfit_a\tfit_b\tattract_a\tattract_b\tporatio", false);
+				outfile = new Printer(temp.get_filename(),"E\tbootn\ttime\tpid\tptype\tnum_pollen\tnum_st_pollen\tnum_pollen_right\tnum_pollen_wrong\tnum_pollen_lost\tnum_pollen_on_pollinator\tfit_a\tfit_b\tattract_a\tattract_b\tratio\tactual_ovule\tactual_pollen", false);
 				outfile.printHeader();
 				outstring = String.valueOf(temp.get_poevolve()) + "\t" + String.valueOf(temp.get_num_plants()) +"\t" + String.valueOf(temp.get_num_plants_1()) +"\t" + 
 				String.valueOf(temp.get_num_plants_2()) +"\t"  + String.valueOf(temp.get_num_pollinator_a()) +"\t"  + 
