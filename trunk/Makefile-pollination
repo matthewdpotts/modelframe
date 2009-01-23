@@ -20,8 +20,16 @@ POLLINATOR_FILES = 	$(TOPDIR)/model/pollination/*.java \
 all: pollination-jar
 
 pollination-jar: pollination $(POLLINATOR_MANIFEST)
-	jar cvf pollinator-`date +%F`.jar -m $(POLLINATOR_MANIFEST) \
-		-C $(TOPDIR)/ model/pollination/ \
+	jar cvmf $(POLLINATOR_MANIFEST) pollinator-`date +%F`.jar \
+		-C $(TOPDIR)/ model/pollination/Main.class \
+		-C $(TOPDIR)/ model/pollination/PollenGrain.class \
+		-C $(TOPDIR)/ model/pollination/Model.class \
+		-C $(TOPDIR)/ model/pollination/PollinationBatchReader.class \
+		-C $(TOPDIR)/ model/pollination/Ovule.class \
+		-C $(TOPDIR)/ model/pollination/Pollinator.class \
+		-C $(TOPDIR)/ model/pollination/Plant.class \
+		-C $(TOPDIR)/ model/pollination/RunParamObj.class \
+		-C $(TOPDIR)/ model/pollination/Pollen.class \
 		-C $(TOPDIR)/ model/BatchReader.class \
 		-C $(TOPDIR)/ model/util/MersenneTwisterFast.class \
 		-C $(TOPDIR)/ model/util/Printer.class
