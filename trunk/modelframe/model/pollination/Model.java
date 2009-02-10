@@ -69,7 +69,8 @@ public class Model {
 	//				if(plant_temp.id == 1) // change this to getjust one plant's pid in file, or remove for to get all plants
 						output.printData(Integer.toString(poevolve) + "\t" + Integer.toString(num_boots) + "\t" + Integer.toString(i) + "\t" + Integer.toString(plant_temp.id) + "\t" + Integer.toString(plant_temp.plant_type) 
 							+ "\t" + Integer.toString(plant_temp.num_pollen_grains) + "\t" + Integer.toString(plant_temp.num_st_pollen_grains) + 
-							"\t" + Integer.toString(plant_temp.num_pollen_right) + "\t" + Integer.toString(plant_temp.num_pollen_wrong) +"\t"+ Integer.toString(plant_temp.num_pollen_lost) + "\t"
+							"\t" + Integer.toString(plant_temp.num_pollen_right) + "\t" + Integer.toString(plant_temp.num_pollen_wrong) +"\t"+ Integer.toString(plant_temp.num_pollen_lost_con) + "\t"
+							+ Integer.toString(plant_temp.num_pollen_lost_het) + "\t"
 							+ Integer.toString(plant_temp.num_pollen_on_pollinator) +"\t"
 							+ Integer.toString(plant_temp.fit_a) + "\t" + Integer.toString(plant_temp.fit_b) + "\t"
 							+ Integer.toString(plant_temp.attract_a) + "\t" + Integer.toString(plant_temp.attract_b) + "\t" + Integer.toString(plant_temp.poratio)
@@ -106,7 +107,7 @@ public class Model {
 					}
 				}
 			}
-			
+		
 			for(int k = 0; k < (num_plants_1 + num_plants_2); k++)
 			{ 
 				temp = plants.get(k);				
@@ -122,15 +123,13 @@ public class Model {
 					}
 			}
 			
-			
-			
+				
 			int num_new_plants = 0;
 			int num_new_plants_1 = 0;
 			int num_new_plants_2 = 0;
+			PollenGrain grain_id;
 			
-			int num_self_1 = num_plants_1 - n1;
-			int num_self_2 = num_plants_2 - n2;
-			
+		
 	//		System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + num_self_1 + "\t" + num_self_2);
 			
 		//	System.out.println(i  + "\t" + n1 + "\t" + n2);
@@ -139,19 +138,24 @@ public class Model {
 			{
 				int rannum = mt.nextInt(n1);
 				int tempid = good_plants_1.get(rannum);
-			//	temp = plants.get(tempid);
-				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
-				good_plants_1.remove(rannum);
-				n1--;
-				num_new_plants_1++;
-				num_new_plants++;
+				grain_id =  plants.get(tempid).giveStPollen();
+				if(grain_id.plant_type == plants.get(tempid).plant_type)
+				{
+					new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants,grain_id.plant_id));
+					good_plants_1.remove(rannum);
+					n1--;
+					num_new_plants_1++;
+					num_new_plants++;
+				}
 			}
-		
+			
+			int num_self_1 = num_plants_1 - n1;
+			
 			for(int iii = 0; iii < num_self_1;iii++)
 			{
 				int rannum = mt.nextInt(sn1);
 				int tempid = self_plants_1.get(rannum);
-				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants, tempid));
 				num_new_plants_1++;
 				num_new_plants++;
 			}
@@ -162,19 +166,24 @@ public class Model {
 			{
 				int rannum = mt.nextInt(n2);
 				int tempid = good_plants_2.get(rannum);
-			//	temp = plants.get(tempid);
-				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
-				good_plants_2.remove(rannum);
-				n2--;
-				num_new_plants_2++;
-				num_new_plants++;
+				grain_id =  plants.get(tempid).giveStPollen();
+				if(grain_id.plant_type == plants.get(tempid).plant_type)
+				{
+					new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants, grain_id.plant_id));
+					good_plants_2.remove(rannum);
+					n2--;
+					num_new_plants_2++;
+					num_new_plants++;
+				}
 			}
+			
+			int num_self_2 = num_plants_2 - n2;
 			
 			for(int iii = 0; iii < num_self_2;iii++)
 			{
 				int rannum = mt.nextInt(sn2);
 				int tempid = self_plants_2.get(rannum);
-				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants));
+				new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants,tempid));
 				num_new_plants_2++;
 				num_new_plants++;
 			}

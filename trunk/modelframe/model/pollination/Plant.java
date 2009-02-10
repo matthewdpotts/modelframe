@@ -7,7 +7,7 @@ import model.util.MersenneTwisterFast;
 public class Plant {
 
 	public int id, plant_type, poevolve; 
-	public int attract_a, attract_b, fit_a, fit_b, poratio, MAX_LOCI, PO_MAX_LOCI,  num_pollen_grains, num_st_pollen_grains, initial_pollen_grains, num_pollen_lost, num_pollen_on_pollinator, num_pollen_right, num_pollen_wrong;
+	public int attract_a, attract_b, fit_a, fit_b, poratio, MAX_LOCI, PO_MAX_LOCI,  num_pollen_grains, num_st_pollen_grains, initial_pollen_grains, num_pollen_lost_con, num_pollen_lost_het, num_pollen_on_pollinator, num_pollen_right, num_pollen_wrong;
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<PollenGrain> pollen; 
 	private ArrayList<PollenGrain> st_pollen;
@@ -40,7 +40,8 @@ public class Plant {
 		
 		this.initial_pollen_grains = this.num_pollen_grains;
 		this.num_st_pollen_grains = 0;
-		this.num_pollen_lost = 0;
+		this.num_pollen_lost_con = 0;
+		this.num_pollen_lost_het = 0;
 		this.num_pollen_wrong = 0;
 		this.num_pollen_right = 0;
 		this.num_pollen_on_pollinator = 0;
@@ -53,11 +54,12 @@ public class Plant {
 		st_pollen = new ArrayList<PollenGrain> (0);
 	}
 	
-	public Plant reproduce(ArrayList<Plant> plant, int pnum) {
+	public Plant reproduce(ArrayList<Plant> plant, int pnum, int grain_id) {
 		Ovule new_ovule;
 		Pollen new_pollen;
-		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, grain_id, o_poratio, p_poratio;
-		grain_id = giveStPollen().plant_id;
+		int a1sum_a, a2sum_a, a1sum_b, a2sum_b, f1sum_a, f2sum_a, f1sum_b, f2sum_b, o_poratio, p_poratio;
+		//int grain_id;
+		//grain_id = giveStPollen().plant_id;
 		Plant planto = plant.get(this.id);
 	//	System.out.println(grain_id);
 		Plant plantp = plant.get(grain_id);
@@ -126,16 +128,17 @@ public class Plant {
 	
 	public void receivePollen(PollenGrain tempgrain) 
 	{
-		if( tempgrain.plant_type   ==  this.plant_type)
+		if(this.poevolve == 2)
 		{
 			st_pollen.add(tempgrain);
 			this.num_st_pollen_grains++;
 		//	this.num_pollen_right++;
 		}
-	//	else
-	//	{
-		//	this.num_pollen_wrong++;
-	//	}
+		else if( tempgrain.plant_type   ==  this.plant_type)
+		{
+			st_pollen.add(tempgrain);
+			this.num_st_pollen_grains++;
+		}
 
 	};
 	
@@ -186,7 +189,7 @@ public class Plant {
 	public void PrintPlant()
 	{
 					System.out.println(this.id + "\t" + this.plant_type + "\t" + this.num_pollen_grains + "\t" + this.num_st_pollen_grains +
-					"\t" + this.num_pollen_right + "\t" + this.num_pollen_wrong +"\t"+ this.num_pollen_lost +"\t"+
+					"\t" + this.num_pollen_right + "\t" + this.num_pollen_wrong +"\t"+ this.num_pollen_lost_con + "\t" + this.num_pollen_lost_het +"\t"+
 					this.attract_a + "\t" +  this.attract_b + "\t" + this.fit_a + "\t" + this.fit_b + "\t" + this.poratio);
 	}
 	

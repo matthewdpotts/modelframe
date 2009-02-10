@@ -40,7 +40,7 @@ public class Pollinator {
 		{
 			move(plants, num_plants);
 		}
-		losePollen(plants);
+		losePollen(plants, visit);
 	}
 	
 	/** Check here to ensure visiting is working as desired **/
@@ -153,7 +153,7 @@ public class Pollinator {
 }
 	
 	
-	private void losePollen(ArrayList<Plant> plants)
+	private void losePollen(ArrayList<Plant> plants, Plant visit)
 	{
 		int rannum;
 		PollenGrain tempgrain;
@@ -164,7 +164,14 @@ public class Pollinator {
 			{
 				rannum = mt.nextInt(num_grains);
 				tempgrain = pollen.get(rannum);
-				plants.get(tempgrain.plant_id).num_pollen_lost++;
+				if(tempgrain.plant_type == visit.plant_type)
+				{
+					plants.get(tempgrain.plant_id).num_pollen_lost_con++;
+				}
+				else
+				{
+					plants.get(tempgrain.plant_id).num_pollen_lost_het++;
+				}
 				plants.get(tempgrain.plant_id).num_pollen_on_pollinator--;
 				pollen.remove(rannum);
 				num_grains--;
