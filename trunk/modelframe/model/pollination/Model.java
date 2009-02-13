@@ -15,7 +15,7 @@ public class Model {
 	private Printer output1;
 	private String outstring;
 	
-	public Model(String mfile, String file, String outstring2, int poevolve,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b,  int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b,double conv_tol, double min_attract, double max_attract, double total_pollen, double n)
+	public Model(String mfile, String file, String outstring2, int poevolve,  int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b,  int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b,double conv_tol, double min_attract, double max_attract, double total_pollen, double n, double deposit_rate_a, double deposit_rate_b)
  throws FileNotFoundException {
 		plants = new ArrayList<Plant>(0);
 		bees = new ArrayList<Pollinator>(0);
@@ -26,8 +26,7 @@ public class Model {
 		}
 	
 
-	
-	public void run(int poevolve, int num_boots, int steps, int num_plants_1, int num_plants_2, int num_polliantor_a, int num_polliantor_b, int num_visits_a, int num_visits_b, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol) 
+	public void run(int poevolve, int num_boots, int steps, int num_plants_1, int num_plants_2, int num_polliantor_a, int num_polliantor_b, int num_visits_a, int num_visits_b, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol, double deposit_rate_a, double deposit_rate_b) 
 	{
 		ArrayList<Plant> new_plants;
 		ArrayList<Integer> good_plants_1;
@@ -45,7 +44,7 @@ public class Model {
 		for(int i = 0; i < steps; i++) 
 		{
 		
-		initBees(num_polliantor_a,num_polliantor_b,num_visits_a, num_visits_b, pollen_loss_rate_a, pollen_loss_rate_b);	
+		initBees(num_polliantor_a,num_polliantor_b,num_visits_a, num_visits_b, pollen_loss_rate_a, pollen_loss_rate_b, deposit_rate_a, deposit_rate_b);	
 
 		int num_pollinators = num_polliantor_a + num_polliantor_b;
 			
@@ -223,15 +222,15 @@ public class Model {
 	//	System.out.println("Intialized");
 	}
 
-	private void initBees( int npa, int npb, int nva, int nvb, double pla, double plb)	
+	private void initBees( int npa, int npb, int nva, int nvb, double pla, double plb, double dpra, double dprb)	
 	{
 		for(int i = 0; i < npa; i++) 
 		{
-			bees.add(new Pollinator(i,1, pla, nva));
+			bees.add(new Pollinator(i,1, pla, nva, dpra));
 		}
 		for(int i = npa; i < npa+npb; i++) 
 		{
-			bees.add(new Pollinator(i,2, plb, nvb));
+			bees.add(new Pollinator(i,2, plb, nvb, dprb));
 		}	
 	}
 	
