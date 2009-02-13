@@ -11,12 +11,13 @@ public class Pollinator {
 	private int num_grains ;
 	private boolean first_visit;
 	public int type_pollinator, xdim, ydim, id, num_visits; 
-	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup;
+	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup, deposit_rate;
 	
 	
-	public Pollinator(int id, int type, double pollen_loss_rate, int nv) {
+	public Pollinator(int id, int type, double pollen_loss_rate, int nv, double deposit_rate) {
 		this.type_pollinator = type;
 		this.pollen_loss_rate = pollen_loss_rate;
+		this.deposit_rate = deposit_rate;
 		this.num_visits = nv;
 		this.id = id;
 		first_visit = true;
