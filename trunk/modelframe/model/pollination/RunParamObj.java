@@ -27,13 +27,15 @@ public class RunParamObj {
 	private double n;
 	private double deposit_rate_a;
 	private double deposit_rate_b;
+	private double receive_rate_a;
+	private double receive_rate_b;
 	
 	
 	
 	private String filename;
 	private String masterfile;
 	
-	public RunParamObj ( String masterfile, String filename, int poevolve, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol, double min_attract, double max_attract, double total_pollen, double n, double deposit_rate_a, double deposit_rate_b)
+	public RunParamObj ( String masterfile, String filename, int poevolve, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol, double min_attract, double max_attract, double total_pollen, double n, double deposit_rate_a, double deposit_rate_b, double receive_rate_a, double receive_rate_b)
  {
 		this.masterfile = masterfile;
 		this.filename = filename;
@@ -62,6 +64,8 @@ public class RunParamObj {
 		this.n = n;
 		this.deposit_rate_a = deposit_rate_a;
 		this.deposit_rate_b = deposit_rate_b;
+		this.receive_rate_a = receive_rate_a;
+		this.receive_rate_b = receive_rate_b;
 	}
 	
 	public String get_masterfile () {
@@ -171,6 +175,15 @@ public class RunParamObj {
 	public double get_deposit_rate_b () {
 		return deposit_rate_b;
 	}
+	
+	public double get_receive_rate_a () {
+		return receive_rate_a;
+	}
+	
+	public double get_receive_rate_b () {
+		return receive_rate_b;
+	}
+	
 	
 	
 	
