@@ -35,6 +35,7 @@ public class Pollinator {
 		{
 			depositPollen(visit, plants);
 			receivePollen(visit, plants);
+			losePollen(plants, visit);
 			this.num_visits--;
 	//		visit.PrintPlant();
 		}
@@ -42,7 +43,7 @@ public class Pollinator {
 		{
 			move(plants, num_plants);
 		}
-		losePollen(plants, visit);
+	//	losePollen(plants, visit);
 	}
 	
 	/** Check here to ensure visiting is working as desired **/
