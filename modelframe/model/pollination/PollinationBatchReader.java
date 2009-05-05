@@ -33,7 +33,7 @@ public class PollinationBatchReader implements BatchReader {
 		String temp_filename1 = null;
 		Printer output;
 		temp_filename1 = strtok.nextToken();
-		output = new Printer(temp_filename1,"E\tnP\tnP1\tnP2\tnPa\tnPb\tnVa\tnVb\tnOv1\tnOv2\tnFl1\tnFl2\tnPo1\tnPo2\tlossa\tlossb\tconv_tol\tmin_A\tmax_A\ttotal_pollen\tn\tdepost_rate_a\tdeposit_rate_b\tbn\tSteps\tASteps\tMP1Aa\tMP2Aa\tMP1Ab\tMP2Ab\tMP1Fa\tMP2Fa\tMP1Fb\tMP2Fb\tratio1\tratio2\tave_ove1\tave_ove2\tave_pg1\tave_pg2", false);
+		output = new Printer(temp_filename1,"E\tnP\tnP1\tnP2\tnPa\tnPb\tnVa\tnVb\tnOv1\tnOv2\tnFl1\tnFl2\tnPo1\tnPo2\tlossa\tlossb\tconv_tol\tmin_A\tmax_A\ttotal_pollen\tn\tdepost_rate_a\tdeposit_rate_b\treceive_rate_a\treceive_rate_b\tbn\tSteps\tASteps\tMP1Aa\tMP2Aa\tMP1Ab\tMP2Ab\tMP1Fa\tMP2Fa\tMP1Fb\tMP2Fb\tratio1\tratio2\tave_ove1\tave_ove2\tave_pg1\tave_pg2", false);
 		output.printHeader();
 		line = buff.readLine();
 		line = buff.readLine();
