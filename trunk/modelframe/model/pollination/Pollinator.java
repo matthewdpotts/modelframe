@@ -41,7 +41,8 @@ public class Pollinator {
 		}
 		else 
 		{
-			move(plants, num_plants);
+		//	move(plants, num_plants);
+			this.num_visits--;
 		}
 	//	losePollen(plants, visit);
 	}
