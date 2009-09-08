@@ -35,7 +35,7 @@ public class Plant {
 		{
 			this.num_pollen_grains = (int) (this.poratio * total_pollen)/this.PO_MAX_LOCI;
 			this.num_ovules = (int) ((total_pollen - this.num_pollen_grains)/n);
-			//System.out.println(this.poevolve + "\t" + this.id + "\t" + total_pollen + "\t" + this.poratio + "\t" + this.num_pollen_grains + "\t" + this.num_ovules + "\t" +  n);
+		//	System.out.println(this.poevolve + "\t" + this.id + "\t" + total_pollen + "\t" + this.poratio + "\t" + this.num_pollen_grains + "\t" + this.num_ovules + "\t" +  n);
 		}
 		
 		this.initial_pollen_grains = this.num_pollen_grains;
