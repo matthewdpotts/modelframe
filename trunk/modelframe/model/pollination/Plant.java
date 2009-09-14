@@ -13,6 +13,7 @@ public class Plant {
 	private ArrayList<PollenGrain> st_pollen;
 	public int num_flowers;
 	public int num_ovules;
+	public int num_pollen_right_st;
 	public double min_attract, max_attract, total_pollen, n;
 
 	
@@ -44,6 +45,7 @@ public class Plant {
 		this.num_pollen_lost_het = 0;
 		this.num_pollen_wrong = 0;
 		this.num_pollen_right = 0;
+		this.num_pollen_right_st = 0;
 		this.num_pollen_on_pollinator = 0;
 
 		this.min_attract = min_attract;
@@ -132,12 +134,13 @@ public class Plant {
 		{
 			st_pollen.add(tempgrain);
 			this.num_st_pollen_grains++;
-		//	this.num_pollen_right++;
+			this.num_pollen_right_st++;
 		}
 		else if( tempgrain.plant_type   ==  this.plant_type)
 		{
 			st_pollen.add(tempgrain);
 			this.num_st_pollen_grains++;
+			this.num_pollen_right_st++;
 		}
 
 	};
