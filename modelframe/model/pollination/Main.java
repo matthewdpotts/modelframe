@@ -10,8 +10,8 @@ public class Main {
 	//	test.run(100, 50, 50, 250, 250);
 		System.out.println("File\tE\t#Boots\tSteps\t#P\t#P1\t#P2\t#Pa\t#Pb\t#Va\t#Vb\t#O1\t#O2\t#F1\t#F2\t#Po1\t#Po2\tlossa\tlossb\tconvergence_tolerance\tmin_attract\tmax_attract\ttotal_pollen\tn");	
 		PollinationBatchReader runner = new PollinationBatchReader();
-	//	runner.readConfig(new String("Filter93.txt"));
-		runner.readConfig(args[0]);
+		runner.readConfig(new String("Stigma93.txt"));
+	//	runner.readConfig(args[0]);
 		runner.run();
 		System.out.println("Done.");
 	}
