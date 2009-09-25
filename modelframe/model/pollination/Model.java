@@ -58,7 +58,7 @@ public class Model {
 						num_pollinators--;
 						}
 			}
-	/*	
+		
 			if(i % 50 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
@@ -78,7 +78,7 @@ public class Model {
 				}
 
 			}
-			*/
+			
 			good_plants_1 = new ArrayList<Integer>(0);
 			good_plants_2 = new ArrayList<Integer>(0);
 			self_plants_1 = new ArrayList<Integer>(0);
@@ -234,11 +234,11 @@ public class Model {
 			
 		//	PrintPlants(plants, num_new_plants_1, num_new_plants_2);
 		
-			if(converge(plants, num_plants_1, num_plants_2, conv_tol))
-			{
-				conv_i = i;
-				break;
-			}
+		//	if(converge(plants, num_plants_1, num_plants_2, conv_tol))
+		//	{
+		//		conv_i = i;
+		//		break;
+		//	}
 		
 		}
 		
