@@ -114,8 +114,8 @@ public class PollinationBatchReader implements BatchReader {
 		for ( int i = 0; i < commands.size(); i++ ) {
 			RunParamObj temp = commands.get(i);
 			try {
-				outfile = new Printer(temp.get_filename(),"E\tbootn\ttime\tpid\tptype\tnum_pollen\tnum_st_pollen\tnum_pollen_right\tnum_pollen_wrong\tnum_pollen_lost_con\tnum_pollen_lost_het\tnum_pollen_on_pollinator\tfit_a\tfit_b\tattract_a\tattract_b\tratio\tactual_ovule\tactual_pollen", false);
-				outfile.printHeader();
+			//	outfile = new Printer(temp.get_filename(),"E\tbootn\ttime\tpid\tptype\tnum_pollen\tnum_st_pollen\tnum_pollen_right\tnum_pollen_wrong\tnum_pollen_lost_con\tnum_pollen_lost_het\tnum_pollen_on_pollinator\tfit_a\tfit_b\tattract_a\tattract_b\tratio\tactual_ovule\tactual_pollen", false);
+			//	outfile.printHeader();
 				outstring = String.valueOf(temp.get_poevolve()) + "\t" + String.valueOf(temp.get_num_plants()) +"\t" + String.valueOf(temp.get_num_plants_1()) +"\t" + 
 				String.valueOf(temp.get_num_plants_2()) +"\t"  + String.valueOf(temp.get_num_pollinator_a()) +"\t"  + 
 				String.valueOf(temp.get_num_pollinator_b()) +"\t"  + String.valueOf(temp.get_num_visits_a()) + "\t"  + 

@@ -19,7 +19,7 @@ public class Model {
  throws FileNotFoundException {
 		plants = new ArrayList<Plant>(0);
 		bees = new ArrayList<Pollinator>(0);
-		output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b\tporatio", true);
+	//	output = new Printer(file, "bootn\ttime\tpid\tptype\tfit_a\tfit_b\tattract_a\tattract_b\tporatio", true);
 		output1 = new Printer(mfile, "", true);
 		outstring = outstring2;
 		initPlants(poevolve, num_plants_1,num_plants_2,num_ovules_1, num_ovules_2, num_flowers_1, num_flowers_2, num_pollen_grain_1, num_pollen_grain_2, min_attract, max_attract, total_pollen, n);
@@ -59,7 +59,7 @@ public class Model {
 						}
 			}
 		
-			if(i % 50 == 0) 
+		/*	if(i % 50 == 0) 
 			{ 
 				for(int k = 0; k < (num_plants_1+num_plants_2); k++) 
 				{
@@ -77,7 +77,7 @@ public class Model {
 						);
 				}
 
-			}
+			}*/
 			
 			good_plants_1 = new ArrayList<Integer>(0);
 			good_plants_2 = new ArrayList<Integer>(0);
