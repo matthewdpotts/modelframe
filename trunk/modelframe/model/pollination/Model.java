@@ -97,13 +97,13 @@ public class Model {
 					if(temp.plant_type == 1)
 					{
 						good_plants_1.add(temp.id);
-						System.out.println("Plant 1" + "\t" + j  + "\t" + temp.id + "\t" + temp.num_ovules + "\t" + temp.num_st_pollen_grains);
+					//	System.out.println("Plant 1" + "\t" + j  + "\t" + temp.id + "\t" + temp.num_ovules + "\t" + temp.num_st_pollen_grains);
 						n1++;
 					}
 					else if(temp.plant_type == 2)
 					{
 						good_plants_2.add(temp.id);
-						System.out.println("Plant 2" + "\t" + j  + "\t" + temp.id + "\t" + temp.num_ovules + "\t" + temp.num_st_pollen_grains);
+					//	System.out.println("Plant 2" + "\t" + j  + "\t" + temp.id + "\t" + temp.num_ovules + "\t" + temp.num_st_pollen_grains);
 						n2++;
 					}
 				}
@@ -175,6 +175,12 @@ public class Model {
 					num_new_plants_1++;
 					num_new_plants++;
 				}
+				else 
+				{
+					good_plants_1.remove(rannum);
+					n1--;
+				}
+				
 			}
 			int num_self_1 = num_plants_1 - num_new_plants_1;
 			
@@ -208,6 +214,11 @@ public class Model {
 					n2--;
 					num_new_plants_2++;
 					num_new_plants++;
+				}
+				else
+				{
+					good_plants_2.remove(rannum);
+					n2--;
 				}
 			}
 			
