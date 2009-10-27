@@ -153,9 +153,9 @@ public class Model {
 			}
 				
 			
-	//		System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_self_1 + "\t" + num_self_2);
+			System.out.println(1 + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2);
 			
-	//		System.out.println(i  + "\t" + n1 + "\t" + n2);
+			System.out.println(2 + "\t" + i  + "\t" + n1 + "\t" + n2);
 
 			while((num_new_plants_1 < num_plants_1) && (!good_plants_1.isEmpty())) 
 			{
@@ -163,7 +163,7 @@ public class Model {
 				int tempid = good_plants_1.get(rannum);
 				grain_id =  plants.get(tempid).giveStPollen();
 				
-		//		System.out.println(rannum  + "\t" + tempid + "\t" + grain_id.plant_type+ "\t" + plants.get(tempid).plant_type);
+				System.out.println(rannum  + "\t" + tempid + "\t" + grain_id.plant_type+ "\t" + plants.get(tempid).plant_type);
 				
 				if(grain_id.plant_type == plants.get(tempid).plant_type)
 				{
@@ -176,7 +176,7 @@ public class Model {
 			}
 			int num_self_1 = num_plants_1 - num_new_plants_1;
 			
-		//	System.out.println("Plant 1" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_1 + "\t" + num_self_1);
+			System.out.println("Plant 1" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_1 + "\t" + num_self_1);
 			
 			
 			for(int iii = 0; iii < num_self_1;iii++)
@@ -188,7 +188,7 @@ public class Model {
 				num_new_plants++;
 			}
 			
-		//	System.out.println("Plant 1" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_1 + "\t" + num_self_1);
+			System.out.println("Plant 1" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_1 + "\t" + num_self_1);
 			
 			
 		//	PrintPlants(new_plants, num_new_plants_1, 0);
@@ -198,7 +198,7 @@ public class Model {
 				int rannum = mt.nextInt(n2);
 				int tempid = good_plants_2.get(rannum);
 				grain_id =  plants.get(tempid).giveStPollen();
-			//	System.out.println(rannum  + "\t" + tempid + "\t" + grain_id.plant_type+ "\t" + plants.get(tempid).plant_type);
+				System.out.println(rannum  + "\t" + tempid + "\t" + grain_id.plant_type+ "\t" + plants.get(tempid).plant_type);
 				if(grain_id.plant_type == plants.get(tempid).plant_type)
 				{
 					new_plants.add(plants.get(tempid).reproduce(plants, num_new_plants, grain_id.plant_id));
@@ -211,7 +211,7 @@ public class Model {
 			
 			int num_self_2 = num_plants_2 - num_new_plants_2;
 			
-		//	System.out.println("Plant 2" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_2 + "\t" + num_self_2);
+			System.out.println("Plant 2" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_2 + "\t" + num_self_2);
 			
 			
 			for(int iii = 0; iii < num_self_2;iii++)
@@ -223,11 +223,11 @@ public class Model {
 				num_new_plants++;
 			}
 			
-		//	System.out.println("Plant 2" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_2 + "\t" + num_self_2);
+			System.out.println("Plant 2" + "\t" + i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_new_plants_2 + "\t" + num_self_2);
 			
 		//	System.out.println(i + "\t" + num_new_plants_1 + "\t" + num_self_1 + "\t" + num_new_plants_2 + "\t" + num_self_2 + "\t" + num_new_plants);
 			
-		//	System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_self_1 + "\t" + num_self_2);
+			System.out.println(i  + "\t" + n1 + "\t" + n2 + "\t" + sn1 + "\t" + sn2 + "\t" +  num_self_1 + "\t" + num_self_2);
 				
 			
 			plants = new_plants;
