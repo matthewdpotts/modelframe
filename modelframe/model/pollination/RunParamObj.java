@@ -1,7 +1,10 @@
 package model.pollination;
 
+
 public class RunParamObj {
 
+	//Class that holds parameters for a model run.  Attribute definitions are self explanatory. 
+	
 	private int poevolve;
 	private int num_boots;
 	private int num_steps;
@@ -29,14 +32,14 @@ public class RunParamObj {
 	private double deposit_rate_b;
 	private double receive_rate_a;
 	private double receive_rate_b;
-	
-	
-	
 	private String filename;
 	private String masterfile;
 	
+
+	
 	public RunParamObj ( String masterfile, String filename, int poevolve, int num_boots, int num_steps, int num_plants, int num_plants_1, int num_plants_2, int num_pollinator_a, int num_pollinator_b, int num_visits_a, int num_visits_b, int num_ovules_1, int num_ovules_2, int num_flowers_1,int num_flowers_2, int num_pollen_grain_1, int num_pollen_grain_2, double pollen_loss_rate_a, double pollen_loss_rate_b, double conv_tol, double min_attract, double max_attract, double total_pollen, double n, double deposit_rate_a, double deposit_rate_b, double receive_rate_a, double receive_rate_b)
  {
+		//Class constructor - set values of class attributes. 
 		this.masterfile = masterfile;
 		this.filename = filename;
 		this.poevolve = poevolve;
@@ -68,6 +71,8 @@ public class RunParamObj {
 		this.receive_rate_b = receive_rate_b;
 	}
 	
+	//Methods to return attribute values of class. 
+	
 	public String get_masterfile () {
 		return masterfile;
 	}
@@ -83,7 +88,6 @@ public class RunParamObj {
 	public int get_poevolve () {
 		return poevolve;
 	}
-	
 	
 	public int get_num_steps () {
 		return num_steps;
@@ -184,8 +188,7 @@ public class RunParamObj {
 		return receive_rate_b;
 	}
 	
-	
-	
+
 	
 }
 

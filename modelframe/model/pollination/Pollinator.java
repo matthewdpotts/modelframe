@@ -6,6 +6,9 @@ import model.util.MersenneTwisterFast;
 
 public class Pollinator {
 
+	//pollinator class.  Has many attributes - not all used in current model formulation.
+	//Refer to paper for full details. 
+	
 	public static MersenneTwisterFast mt = new MersenneTwisterFast();
 	private ArrayList<PollenGrain> pollen;
 	private int num_grains ;
@@ -13,8 +16,8 @@ public class Pollinator {
 	public int type_pollinator, xdim, ydim, id, num_visits; 
 	public double pollen_loss_rate, amount_pollen, pollen_loss_pickup, deposit_rate, receive_rate;
 	
-	
 	public Pollinator(int id, int type, double pollen_loss_rate, int nv, double deposit_rate, double receive_rate) {
+		//Construct a pollinator
 		this.type_pollinator = type;
 		this.pollen_loss_rate = pollen_loss_rate;
 		this.deposit_rate = deposit_rate;
@@ -27,9 +30,10 @@ public class Pollinator {
 	}
 	
 	public void move(ArrayList<Plant> plants, int num_plants) {
-		int i = mt.nextInt(num_plants); // should not hard code number of plants //
+		//Method to pick a random plant and check if a visit occurs (visit_plant) and if so receive (receivePollen) and give (depositPollen)
+		// occur as well as grooms off after a visit (losePollen).  
+		int i = mt.nextInt(num_plants); 
 		Plant visit = plants.get(i);
-	//	visit.PrintPlant();
 		boolean visited = visit_plant(visit);
 		if(visited) 
 		{
@@ -37,18 +41,17 @@ public class Pollinator {
 			receivePollen(visit, plants);
 			losePollen(plants, visit);
 			this.num_visits--;
-	//		visit.PrintPlant();
 		}
 		else 
 		{
-		//	move(plants, num_plants);
 			this.num_visits--;
 		}
-	//	losePollen(plants, visit);
 	}
 	
-	/** Check here to ensure visiting is working as desired **/
 	private boolean visit_plant(Plant visit) {
+		//Method that checks whether or not a given pollinator visits a given plant.  Allows for the inclusion of filter
+		//traits if desired - i.e. plant attractions to a pollinator cannot increase/decrease above/below a certain
+		//amount. 
 		double rannum = mt.nextDouble();
 		double t_attract;
 		
@@ -58,12 +61,6 @@ public class Pollinator {
 		if(t_attract < visit.min_attract)
 			t_attract = visit.min_attract;
 			
-		
-	//	double scaler = 10./(visit.max_attract - visit.min_attract);
-		
-		//System.out.println(((double) (visit.attract_a/scaler) + visit.min_attract)*0.1);
-		
-	//	if(type_pollinator == 1) && ((double) (visit.attract_a/scaler) + visit.min_attract)*0.1 > rannum) {
 		if(type_pollinator == 1)
 		{
 			t_attract= visit.attract_a;
@@ -76,8 +73,7 @@ public class Pollinator {
 				return true;
 			}
 		}
-	//	else if(type_pollinator == 2 && ((double) (visit.attract_b/scaler) + visit.min_attract)*0.1  > rannum) {
-			else if (type_pollinator == 2)	
+		else if (type_pollinator == 2)	
 			{
 				t_attract= visit.attract_b;
 				if(t_attract > visit.max_attract)
@@ -92,17 +88,16 @@ public class Pollinator {
 		return false;
 	}
 
-	/** Take a look here to make sure pollen depositing is going as expected. **/
+	
 	private void depositPollen(Plant visit, ArrayList<Plant> plants) 
 	{
-		//int sum_a = visit.fit_a;
-		//int sum_b = visit.fit_b;
+		// Method to deposit a set number of pollen grain (deposit rate) based on pollinator type. 
+		// Pollinator deposits the lesser of the receive rate or amount of pollen it is currently carrying
 		int sum_a = (int) this.deposit_rate;
 		int sum_b = (int) this.deposit_rate;
 		
 		int rannum;
 		PollenGrain grain;
-		
 		
 		if(first_visit == true) 
 		{
@@ -111,7 +106,6 @@ public class Pollinator {
 		else if(type_pollinator  == 1) 
 		{
 			for(int i = 0; i <  sum_a && !pollen.isEmpty(); i++) 
-		//	for(int i = 0; i <  (int) this.deposit_rate && !pollen.isEmpty(); i++) 
 			{
 				if(pollen.isEmpty())
 						first_visit = true;
@@ -135,7 +129,6 @@ public class Pollinator {
 		else if(type_pollinator  == 2) 
 		{
 			for(int i = 0; i < sum_b && !pollen.isEmpty(); i++) 
-		//for(int i = 0; i <  (int) this.deposit_rate && !pollen.isEmpty(); i++) 
 			{
 				if(pollen.isEmpty())
 					first_visit = true;
@@ -158,18 +151,16 @@ public class Pollinator {
 		}
 	}
 
-	
-	private void receivePollen(Plant visit, ArrayList<Plant> plants) {
 
-		//int sum_a = visit.fit_a;
-		//int sum_b = visit.fit_b;
+	private void receivePollen(Plant visit, ArrayList<Plant> plants) {
+		//Method to have pollinator get pollen from a plant based on receive rate.
+		//Pollinator gets the lesser of the receive rate or amount of pollen on the plant
 		int sum_a = (int) this.receive_rate;
 		int sum_b = (int) this.receive_rate;
 		PollenGrain grain;
 		
 		if(type_pollinator == 1) {
 			for(int i = 0; i <  sum_a && visit.num_pollen_grains != 0; i++) {
-		//	for(int i = 0; i <  (int) this.receive_rate && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
 				plants.get(grain.plant_id).num_pollen_on_pollinator++;
 				pollen.add(grain);
@@ -178,7 +169,6 @@ public class Pollinator {
 		}
 		else if(type_pollinator == 2) {
 		for(int i = 0; i < sum_b && visit.num_pollen_grains != 0; i++) {
-	//	for(int i = 0; i <  (int) this.receive_rate && visit.num_pollen_grains != 0; i++) {
 				grain = visit.givePollen();
 				plants.get(grain.plant_id).num_pollen_on_pollinator++;
 				pollen.add(grain);
@@ -190,9 +180,10 @@ public class Pollinator {
 			first_visit = false;
 }
 	
-	
+
 	private void losePollen(ArrayList<Plant> plants, Plant visit)
 	{
+		//Method to model pollen loss caused by grooming after a visit. 
 		int rannum;
 		PollenGrain tempgrain;
 		if(num_grains > 0) 
