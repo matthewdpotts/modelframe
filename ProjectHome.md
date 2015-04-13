@@ -1,0 +1,1 @@
+ModelFrame is designed for use by biologists, ecologists, and mathematicians for use in explicit discrete statistical models. Examples of these include discrete movement of entities in a defined space or even undefined space, contact processes, spatial statistics.
